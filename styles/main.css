@@ -1,0 +1,202 @@
+/* the styles for the elements */
+* {
+	margin: 0;
+	padding: 0;
+}
+html {
+	background-color: white;
+}
+body {
+	font-family: Arial, Helvetica, sans-serif;
+    font-size: 100%;
+    width: 900px;
+    margin: 0 auto;
+    border: 3px solid #033e14;
+    background-color: #fffded;
+}
+a:focus, a:hover {
+	font-style: italic;
+}
+/* the styles for the header */
+header {
+	padding: 1.5em 0 2em 0;
+	border-bottom: 3px solid #033e14;
+		background-image: -moz-linear-gradient(
+	    30deg, #f6bb73 0%, #f6bb73 30%, white 50%, #f6bb73 80%, #f6bb73 100%);
+	background-image: -webkit-linear-gradient(
+	    30deg, #f6bb73 0%, #fffded 30%, white 50%, #fffded 80%, #f6bb73 100%);
+	background-image: -o-linear-gradient(
+	    30deg, #f6bb73 0%, #fffded 30%, white 50%, #fffded 80%, #f6bb73 100%);
+	background-image: linear-gradient(
+	    30deg, #f6bb73 0%, #fffded 30%, white 50%, #fffded 80%, #f6bb73 100%);
+}
+header h2 {
+	font-size: 175%;
+	color: #00801c;
+}
+header h3 {
+	font-size: 130%;
+	font-style: italic;
+}
+header img {
+	float: left;
+	padding: 0 30px;
+}
+.shadow {
+	text-shadow: 2px 2px 2px #05a14b;
+}
+/* the styles for the navigation menu */
+#nav_menu ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+#nav_menu ul li {
+	float: left;
+}
+#nav_menu ul li a {
+    display: block;
+    width: 225px;
+    text-align: center;
+    padding: 1em 0;
+    text-decoration: none;
+    background-color: #033e14;
+    color: white;
+    font-weight: bold;
+}
+#nav_menu ul ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+}
+#nav_menu ul ul li {
+	float: none;
+}
+#nav_menu ul li:hover > ul {
+	display: block;
+}
+#nav_menu > ul::after {
+    content: "";
+    clear: both;
+    display: block;
+}
+/* the styles for the main content */
+main {
+	clear: left;
+}
+
+/* the styles for the section */
+section {
+	width: 525px;
+	float: right;
+	padding: 0 20px 20px 20px;
+}
+section h2{
+	color: #033e14;
+}
+section h1 {
+	color: #033e14;
+	font-size: 150%;
+	padding-top: .5em;
+	margin: 0;
+}
+section p {
+	padding-bottom: .5em;
+}
+section blockquote {
+	padding: 0 2em;
+	font-style: italic;
+}
+section ul {
+	padding: 0 0 .25em 1.25em;
+}
+section li {
+	padding-bottom: .35em;
+}
+section{
+	width:480px;
+	float:right;
+	padding-right: 2.5em;
+	padding-left: 2.5em;;
+	border-right: 2px solid #033e14;
+	border-left:2px solid #033e14;
+
+}
+/* the styles for the article */
+article {
+	padding: .5em 0;
+}
+article h2 {
+	font-size: 115%;
+	padding: 0 0 .25em 0;
+}
+figure {
+	float: right;
+	margin: .5em 0 1em 1em;
+}
+figcaption{
+	display: block;
+	font-weight: bold;
+	padding-top: .5em;
+	padding-bottom: 0em;
+	border-bottom: 1px solid black;
+}
+/* the styles for the aside */
+#aside1{
+	width: 150px;
+	float: right;
+	padding: 0 5px 20px 5px;
+}
+#aside1 h2 {
+font-size: 20px;
+padding-bottom: .3em;
+}
+
+aside h3 {
+	font-size: 105%;
+	padding-bottom: .25em;
+}
+#aside p{
+	padding-top: .6em;
+}
+#aside1 img {
+	border: 1px solid black;
+	border-radius: 4px;
+	padding: 3px;
+	width: 140px;
+	background: #033e14;
+}
+#aside2{
+	width: 150px;
+	float: right;
+	
+}
+#aside2 h2{
+	color: #033e14;
+	font-size: 130%;
+	padding: .5em 0 .25em 0;
+}
+#aside2 h3{
+	font-size: 105%;
+	padding-bottom: .25em;
+}
+#aside2 img{
+	border: 1px solid black;
+	border-radius: 4px;
+	padding: 3px;
+	width: 100px;
+	background: #404040;
+}
+
+/* the styles for the footer */
+footer {
+	background-color: #033e14;
+	clear: both;
+
+}
+footer p {
+	text-align: center;
+	color: white;
+	padding: 1em 0;
+}
