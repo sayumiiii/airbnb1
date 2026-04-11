@@ -1,34 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
-	<head>
-		<meta charset="utf-8">
-		<title>Hope</title>
-		<link rel="shortcut icon" href="../images/mercidies logo.png">
-		<link rel="stylesheet" href="../styles/normalize.css">
-		<link rel="stylesheet" href="../styles/images.css">
-	
-		<header>
-			<img src="../images/hope.header.jpg" alt="hope logo" height="80">
-			<h2>Hope</h2>
-			<h3>Feels like Home</h3>
-		</header>
-		<nav id="nav_menu">
-			<ul>
-				<li><a href="../index.html">Home</a></li>
-				<li><a href="../pages/cottage.html">Cottages</a></li>
-				<li><a href="../pages/hotels.html">Hotels</a></li>
-				<li><a href="#">Contacts</a>
-					<ul>
-						<li><a href="#">Contact Information</a></li>
-						
-					</ul>
-				</li>
-			</ul>
-		</nav>
-	</head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact · Hope</title>
+  <meta name="description" content="Get in touch with Hope — we'd love to hear from you about stays, hosting, or anything else.">
+  <link rel="icon" href="../images/hopeLogo.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
 <body>
-    
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo" aria-label="Hope home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+          <path d="M9 21V12h6v9"/>
+        </svg>
+        Hope
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="cottage.html">Cottages</a></li>
+        <li><a href="hotels.html">Hotels</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+
+      <a href="contact.html" class="btn btn-primary nav-cta">List your property</a>
+
+      <button class="nav-burger" id="burgerBtn" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav -->
+  <div class="nav-mobile" id="mobileNav" role="dialog" aria-label="Mobile navigation">
+    <a href="../index.html">Home</a>
+    <a href="cottage.html">Cottages</a>
+    <a href="hotels.html">Hotels</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html" class="btn btn-primary" style="margin-top:.5rem;justify-content:center;">List your property</a>
+  </div>
+
+  <main>
+
+    <!-- ── Page Header ── -->
+    <section class="page-header" aria-label="Page header">
+      <div class="container">
+        <div class="page-header-tag">Get in Touch</div>
+        <h1>Contact Hope</h1>
+        <p>Questions, bookings, or want to list your property? We're here to help.</p>
+      </div>
+    </section>
+
+    <!-- ── Contact Section ── -->
+    <section class="contact-section" aria-label="Contact us">
+      <div class="container">
+        <div class="contact-grid">
+
+          <!-- Form -->
+          <div class="contact-form-card">
+            <h2>Send us a message</h2>
+            <p>Fill in the form below and we'll get back to you within 24 hours.</p>
+
+            <form id="contactForm" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName">First name</label>
+                  <input type="text" id="firstName" name="firstName" placeholder="Jane" required autocomplete="given-name">
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last name</label>
+                  <input type="text" id="lastName" name="lastName" placeholder="Smith" required autocomplete="family-name">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" placeholder="jane@example.com" required autocomplete="email">
+              </div>
+
+              <div class="form-group">
+                <label for="location">Location of interest</label>
+                <select id="location" name="location">
+                  <option value="" disabled selected>Select a city</option>
+                  <option value="toronto">Toronto, ON</option>
+                  <option value="brampton">Brampton, ON</option>
+                  <option value="milton">Milton, ON</option>
+                  <option value="other">Other / Not sure</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <select id="subject" name="subject">
+                  <option value="" disabled selected>What's this about?</option>
+                  <option value="booking">Booking enquiry</option>
+                  <option value="hosting">List my property</option>
+                  <option value="support">Customer support</option>
+                  <option value="other">Something else</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Tell us more about what you're looking for..." required></textarea>
+              </div>
+
+              <div class="form-submit">
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:.8em 1.4em;font-size:1rem;">
+                  Send message
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true" style="margin-left:.25rem"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+                </button>
+              </div>
+
+              <div class="form-success" id="formSuccess" role="alert">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Message sent! We'll be in touch within 24 hours.
+              </div>
+            </form>
+          </div>
+
+          <!-- Info Panel -->
+          <div class="contact-info-panel">
+
+            <div class="info-card">
+              <div class="info-card-header">
+                <div class="info-icon" aria-hidden="true">📍</div>
+                <h3>Our Locations</h3>
+              </div>
+              <div class="location-list">
+                <div class="location-item">
+                  <span class="location-dot"></span>
+                  <div>
+                    <strong>Toronto</strong>
+                    <p>Downtown · Entertainment District</p>
+                  </div>
+                </div>
+                <div class="location-item">
+                  <span class="location-dot"></span>
+                  <div>
+                    <strong>Brampton</strong>
+                    <p>City Centre · Bramalea</p>
+                  </div>
+                </div>
+                <div class="location-item">
+                  <span class="location-dot"></span>
+                  <div>
+                    <strong>Milton</strong>
+                    <p>Old Town · Derry Green</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-header">
+                <div class="info-icon" aria-hidden="true">🕐</div>
+                <h3>Support Hours</h3>
+              </div>
+              <p style="font-size:.88rem;color:var(--text-muted);line-height:1.7">
+                <strong style="color:var(--text)">Monday – Friday</strong><br>9:00 AM – 8:00 PM EST<br><br>
+                <strong style="color:var(--text)">Saturday – Sunday</strong><br>10:00 AM – 6:00 PM EST
+              </p>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-header">
+                <div class="info-icon" aria-hidden="true">🏡</div>
+                <h3>List your property</h3>
+              </div>
+              <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.65">
+                Have a cottage, cabin, or hotel room to share? Join thousands of hosts on Hope and start earning.
+              </p>
+              <a href="#contactForm" class="btn btn-outline" style="font-size:.85rem">
+                Get started →
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+              <path d="M9 21V12h6v9"/>
+            </svg>
+            Hope
+          </div>
+          <p>Your home away from home. Discover unique cottages, hotels, and retreats across beautiful Canada.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="cottage.html">Cottages</a></li>
+            <li><a href="hotels.html">Hotels</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Hope</a></li>
+            <li><a href="#">How it works</a></li>
+            <li><a href="#">Trust &amp; Safety</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">Cancellation</a></li>
+            <li><a href="#">Host resources</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Hope.ca · All rights reserved</p>
+        <p>Brampton · Milton · Toronto · Canada</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../scripts/main.js"></script>
 </body>
 </html>

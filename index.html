@@ -1,80 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="utf-8">
-	<title>Hope</title>
-	<link rel="shortcut icon" href="images/hopeLogo.jpg">
-	<link rel="stylesheet" href="styles/normalize.css">
-	<link rel="stylesheet" href="styles/main.css">
-
-	<header>
-		<img src="images/hope.header.jpg" alt="hope image" height="80" >
-		<h1>Hope</h1>
-		<h2>Feels like Home</h2>
-	</header>
-	<nav id="nav_menu">
-		<ul>
-			<li><a href="index.html">Home</a></li>
-			<li><a href="pages/cottage.html">Cottages</a></li>
-			<li><a href="pages/hotels.html">Hotels</a></li>
-			<li><a href="#">Contacts</a>
-				<ul>
-					<li><a href="pages/contact.html">Contact Information</a></li>
-					
-				</ul>
-			</li>
-		</ul>
-	</nav>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hope · Feels like Home</title>
+  <meta name="description" content="Discover cozy cottages, luxury hotels, and unique stays across Canada with Hope.">
+  <link rel="icon" href="images/hopeLogo.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="styles/main.css">
 </head>
-
 <body>
-	<main>
-		<aside id="aside1">
-			<br>
-			<P> We bring you the most luxury hotels and cottages in canada for your vacation to sped it with your loved ones.</p>
-			<br>
-			<h3><a href="pages/cottage.html">Best Cottages</a></h3> 
-			<br>
-			<h3><a href="pages/hotels.html">Best Hotels</a></h3> 
-			<br>
-		</aside>
-		<section>
-			<br><br>
-			<h2>About Our Website</h2>
-			<br><br>
-			<p>Airbnb was born in 2007 when two Hosts welcomed three guests to their San Francisco home, and has since grown to over 4 million Hosts who have welcomed more than 1 billion guest arrivals in almost every country across the globe. Every day, Hosts offer unique stays and experiences that make it possible for guests to connect with communities in a more authentic way.</p>
-			<br><br>
-			<h2>Guest identity verification</h2><br>
-			<p>Our comprehensive verification system checks details such as name, address, government ID, and more to confirm the identity of guests who book on Airbnb.</p>
-			<br><br>
-			<h2>Reservation screening</h2><br>
-			<p>Our proprietary technology analyzes hundreds of factors in each reservation and blocks certain bookings that show a high risk for disruptive parties and property damage.</p>
-			<br><br>
-			<h1>$3M damage protection</h1>
-			<article id="article1">
-				<p>Airbnb reimburses you for damage caused by guests to your home and belongings, and includes these specialized protections:</p>
-				<p>References: <br>
-					https://www.airbnb.ca/
-					
-				</p>
-			</article>
-		</section>
-		<aside id="aside2">
-			<h2>Canada</h2>
-			<h3>Barmpton<br><a href="#">Barmpton.ca</a></h3>
-			<br>
-			<img src="images/c5.jpeg" alt="Brampton hotel">
-			<h3>Milton<br><a href="#">Milton.ca</a></h3>
-			<br>
-			<img src="images/c10.jpeg" alt="Toronto hotel">
-			<h3>Toronto<br><a href="#">Toronto.ca</a></h3>
-			<img src="images/c7.jpeg" alt="Milton">
-		</aside>
-	</main>
-	<footer>
-		<p>&copy; 2022, Hope.ca, CA 93755</p>
-	</footer>
-</body>
 
+  <!-- ── Navbar ── -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Hope home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+          <path d="M9 21V12h6v9"/>
+        </svg>
+        Hope
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="pages/cottage.html">Cottages</a></li>
+        <li><a href="pages/hotels.html">Hotels</a></li>
+        <li><a href="pages/contact.html">Contact</a></li>
+      </ul>
+
+      <a href="pages/contact.html" class="btn btn-primary nav-cta">List your property</a>
+
+      <button class="nav-burger" id="burgerBtn" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav -->
+  <div class="nav-mobile" id="mobileNav" role="dialog" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="pages/cottage.html">Cottages</a>
+    <a href="pages/hotels.html">Hotels</a>
+    <a href="pages/contact.html">Contact</a>
+    <a href="pages/contact.html" class="btn btn-primary" style="margin-top:.5rem;justify-content:center;">List your property</a>
+  </div>
+
+  <main>
+
+    <!-- ── Hero ── -->
+    <section class="hero" aria-label="Hero">
+      <div class="hero-inner">
+
+        <div class="hero-text">
+          <div class="hero-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            Canada's favourite stays
+          </div>
+          <h1 class="hero-title">
+            Find your perfect<br>
+            <span class="highlight">Canadian escape</span>
+          </h1>
+          <p class="hero-desc">
+            Discover cozy cottages, luxury hotels, and one-of-a-kind retreats across Canada. Your home away from home is waiting.
+          </p>
+
+          <!-- Search -->
+          <form class="search-box" role="search" onsubmit="handleSearch(event)">
+            <div class="search-field">
+              <label for="search-where">Where</label>
+              <input id="search-where" type="text" placeholder="Search destinations" autocomplete="off">
+            </div>
+            <div class="search-field">
+              <label for="search-when">When</label>
+              <input id="search-when" type="text" placeholder="Add dates" autocomplete="off">
+            </div>
+            <div class="search-field">
+              <label for="search-guests">Guests</label>
+              <input id="search-guests" type="text" placeholder="Add guests" autocomplete="off">
+            </div>
+            <button class="search-btn" type="submit" aria-label="Search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+              </svg>
+              Search
+            </button>
+          </form>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-img-wrap">
+            <img src="images/hope.header.jpg" alt="Beautiful Canadian cottage">
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-icon">🏡</div>
+            <div class="hero-card-text">
+              <strong>4M+ Hosts</strong>
+              <span>Across Canada &amp; beyond</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Features ── -->
+    <section class="features" aria-label="Why choose Hope">
+      <div class="container">
+        <div class="features-head">
+          <div class="section-tag">Why Hope?</div>
+          <h2 class="section-title">Your safety, our priority</h2>
+          <p class="section-sub">Every stay is backed by our commitment to trust, safety, and protection.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card animate-fade-up">
+            <div class="feature-icon" aria-hidden="true">🔐</div>
+            <h3>Guest Verification</h3>
+            <p>Our comprehensive system checks name, address, government ID, and more to confirm the identity of every guest.</p>
+          </div>
+          <div class="feature-card animate-fade-up">
+            <div class="feature-icon" aria-hidden="true">🛡️</div>
+            <h3>Reservation Screening</h3>
+            <p>Our technology analyzes hundreds of factors per booking to automatically block reservations that show risk.</p>
+          </div>
+          <div class="feature-card animate-fade-up">
+            <div class="feature-icon" aria-hidden="true">💰</div>
+            <h3>$3M Host Protection</h3>
+            <p>Hosts are reimbursed for damage caused by guests — including specialized protections for your home and belongings.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Destinations ── -->
+    <section class="destinations" aria-label="Explore Canada">
+      <div class="container">
+        <div class="destinations-head">
+          <div class="section-tag">Destinations</div>
+          <h2 class="section-title">Explore beautiful Canada</h2>
+          <p class="section-sub">From city vibes to serene countryside — there's a perfect stay for every trip.</p>
+        </div>
+        <div class="destinations-grid">
+
+          <a href="pages/cottage.html" class="dest-card" aria-label="Explore Brampton stays">
+            <span class="dest-badge">Ontario</span>
+            <img src="images/c5.jpeg" alt="Brampton, Ontario" loading="lazy">
+            <div class="dest-info">
+              <h3>Brampton</h3>
+              <span>Explore stays</span>
+            </div>
+          </a>
+
+          <a href="pages/cottage.html" class="dest-card" aria-label="Explore Milton stays">
+            <span class="dest-badge">Ontario</span>
+            <img src="images/c10.jpeg" alt="Milton, Ontario" loading="lazy">
+            <div class="dest-info">
+              <h3>Milton</h3>
+              <span>Explore stays</span>
+            </div>
+          </a>
+
+          <a href="pages/hotels.html" class="dest-card" aria-label="Explore Toronto stays">
+            <span class="dest-badge">Ontario</span>
+            <img src="images/c7.jpeg" alt="Toronto, Ontario" loading="lazy">
+            <div class="dest-info">
+              <h3>Toronto</h3>
+              <span>Explore stays</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Property CTA ── -->
+    <section class="property-cta" aria-label="Browse properties">
+      <div class="container">
+        <div class="property-cta-head">
+          <div class="section-tag">Browse</div>
+          <h2 class="section-title">Ready to find your perfect stay?</h2>
+          <p class="section-sub">Choose from handpicked cottages and hotels across Canada.</p>
+        </div>
+        <div class="cta-cards">
+          <a href="pages/cottage.html" class="cta-card" aria-label="Browse cottages">
+            <div class="cta-card-icon" aria-hidden="true">🏕️</div>
+            <h3>Browse Cottages</h3>
+            <p>Peaceful retreats nestled in nature — perfect for weekends away with the family or a romantic escape.</p>
+            <span class="btn">Explore cottages →</span>
+          </a>
+          <a href="pages/hotels.html" class="cta-card" aria-label="Browse hotels">
+            <div class="cta-card-icon" aria-hidden="true">🏨</div>
+            <h3>Browse Hotels</h3>
+            <p>Premium city-centre hotels and boutique stays with all the amenities you need for a great trip.</p>
+            <span class="btn">Explore hotels →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+              <path d="M9 21V12h6v9"/>
+            </svg>
+            Hope
+          </div>
+          <p>Your home away from home. Discover unique cottages, hotels, and retreats across beautiful Canada.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="pages/cottage.html">Cottages</a></li>
+            <li><a href="pages/hotels.html">Hotels</a></li>
+            <li><a href="pages/contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Hope</a></li>
+            <li><a href="#">How it works</a></li>
+            <li><a href="#">Trust &amp; Safety</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">Cancellation</a></li>
+            <li><a href="#">Host resources</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2025 Hope.ca · All rights reserved</p>
+        <p>Brampton · Milton · Toronto · Canada</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="scripts/main.js"></script>
+</body>
 </html>

@@ -1,34 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
-	<head>
-		<meta charset="utf-8">
-		<title>Hope</title>
-		<link rel="shortcut icon" href="../images/mercidies logo.png">
-		<link rel="stylesheet" href="../styles/normalize.css">
-		<link rel="stylesheet" href="../styles/images.css">
-	
-		<header>
-			<img src="../images/hope.header.jpg" alt="hope logo" height="80">
-			<h2>Hope</h2>
-			<h3>Feels like Home</h3>
-		</header>
-		<nav id="nav_menu">
-			<ul>
-				<li><a href="../index.html">Home</a></li>
-				<li><a href="../pages/cottage.html">Cottages</a></li>
-				<li><a href="../pages/hotels.html">Hotels</a></li>
-				<li><a href="#">Contacts</a>
-					<ul>
-						<li><a href="#">Contact Information</a></li>
-						
-					</ul>
-				</li>
-			</ul>
-		</nav>
-	</head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotels · Hope</title>
+  <meta name="description" content="Discover premium Canadian hotels and boutique city stays — book your perfect getaway with Hope.">
+  <link rel="icon" href="../images/hopeLogo.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
 <body>
-    
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo" aria-label="Hope home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+          <path d="M9 21V12h6v9"/>
+        </svg>
+        Hope
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="cottage.html">Cottages</a></li>
+        <li><a href="hotels.html" class="active">Hotels</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <a href="contact.html" class="btn btn-primary nav-cta">List your property</a>
+
+      <button class="nav-burger" id="burgerBtn" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav -->
+  <div class="nav-mobile" id="mobileNav" role="dialog" aria-label="Mobile navigation">
+    <a href="../index.html">Home</a>
+    <a href="cottage.html">Cottages</a>
+    <a href="hotels.html">Hotels</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html" class="btn btn-primary" style="margin-top:.5rem;justify-content:center;">List your property</a>
+  </div>
+
+  <main>
+
+    <!-- ── Page Header ── -->
+    <section class="page-header" aria-label="Page header">
+      <div class="container">
+        <div class="page-header-tag">City Stays</div>
+        <h1>Canadian Hotels</h1>
+        <p>Premium hotels and boutique stays in the heart of Canada's finest cities</p>
+      </div>
+    </section>
+
+    <!-- ── Filters ── -->
+    <div class="filters-bar" role="toolbar" aria-label="Filter listings">
+      <div class="container filters-inner">
+        <button class="filter-chip active" data-filter="all">All (6)</button>
+        <button class="filter-chip" data-filter="under200">Under $200</button>
+        <button class="filter-chip" data-filter="200to400">$200–$400</button>
+        <button class="filter-chip" data-filter="over400">$400+</button>
+        <button class="filter-chip" data-filter="close">Under 30 km</button>
+      </div>
+    </div>
+
+    <!-- ── Listings ── -->
+    <section class="listings-section" aria-label="Hotel listings">
+      <div class="container">
+        <div class="listings-grid" id="listingsGrid">
+
+          <!-- Card 1 -->
+          <article class="prop-card" data-price="350" data-dist="5">
+            <div class="prop-img-wrap">
+              <img src="../images/c1.jpeg" alt="The Grand Toronto hotel" loading="lazy">
+              <span class="prop-badge">Hotel</span>
+              <button class="prop-fav" aria-label="Save The Grand Toronto to favourites" onclick="toggleFav(this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              </button>
+            </div>
+            <div class="prop-body">
+              <div class="prop-loc">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Toronto, Ontario
+              </div>
+              <h2 class="prop-name">The Grand Toronto</h2>
+              <div class="prop-stars" aria-label="4.8 star rating">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span style="font-size:.78rem;color:var(--text-muted);margin-left:.25rem;font-weight:700">4.8</span>
+              </div>
+              <div class="prop-meta">
+                <span class="prop-dist">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                  5 km away
+                </span>
+                <div class="prop-price"><strong>$350</strong> <span>/ night</span></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="prop-card" data-price="189" data-dist="28">
+            <div class="prop-img-wrap">
+              <img src="../images/c2.jpeg" alt="Brampton Inn" loading="lazy">
+              <span class="prop-badge">Boutique</span>
+              <button class="prop-fav" aria-label="Save Brampton Inn to favourites" onclick="toggleFav(this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              </button>
+            </div>
+            <div class="prop-body">
+              <div class="prop-loc">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Brampton, Ontario
+              </div>
+              <h2 class="prop-name">Brampton Inn &amp; Suites</h2>
+              <div class="prop-stars" aria-label="4.5 star rating">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span style="font-size:.78rem;color:var(--text-muted);margin-left:.25rem;font-weight:700">4.5</span>
+              </div>
+              <div class="prop-meta">
+                <span class="prop-dist">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                  28 km away
+                </span>
+                <div class="prop-price"><strong>$189</strong> <span>/ night</span></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="prop-card" data-price="225" data-dist="45">
+            <div class="prop-img-wrap">
+              <img src="../images/c3.jpeg" alt="Milton Manor Hotel" loading="lazy">
+              <span class="prop-badge">Hotel</span>
+              <button class="prop-fav" aria-label="Save Milton Manor to favourites" onclick="toggleFav(this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              </button>
+            </div>
+            <div class="prop-body">
+              <div class="prop-loc">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Milton, Ontario
+              </div>
+              <h2 class="prop-name">Milton Manor Hotel</h2>
+              <div class="prop-stars" aria-label="4.7 star rating">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span style="font-size:.78rem;color:var(--text-muted);margin-left:.25rem;font-weight:700">4.7</span>
+              </div>
+              <div class="prop-meta">
+                <span class="prop-dist">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                  45 km away
+                </span>
+                <div class="prop-price"><strong>$225</strong> <span>/ night</span></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="prop-card" data-price="299" data-dist="62">
+            <div class="prop-img-wrap">
+              <img src="../images/c4.jpeg" alt="Forest View Resort" loading="lazy">
+              <span class="prop-badge">Resort</span>
+              <button class="prop-fav" aria-label="Save Forest View to favourites" onclick="toggleFav(this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              </button>
+            </div>
+            <div class="prop-body">
+              <div class="prop-loc">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Oakville, Ontario
+              </div>
+              <h2 class="prop-name">Forest View Resort &amp; Spa</h2>
+              <div class="prop-stars" aria-label="4.9 star rating">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span style="font-size:.78rem;color:var(--text-muted);margin-left:.25rem;font-weight:700">4.9</span>
+              </div>
+              <div class="prop-meta">
+                <span class="prop-dist">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                  62 km away
+                </span>
+                <div class="prop-price"><strong>$299</strong> <span>/ night</span></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="prop-card" data-price="175" data-dist="89">
+            <div class="prop-img-wrap">
+              <img src="../images/c6.jpeg" alt="Lakeside Suites" loading="lazy">
+              <span class="prop-badge">Suites</span>
+              <button class="prop-fav" aria-label="Save Lakeside Suites to favourites" onclick="toggleFav(this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              </button>
+            </div>
+            <div class="prop-body">
+              <div class="prop-loc">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Barrie, Ontario
+              </div>
+              <h2 class="prop-name">Lakeside Suites Barrie</h2>
+              <div class="prop-stars" aria-label="4.4 star rating">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span style="font-size:.78rem;color:var(--text-muted);margin-left:.25rem;font-weight:700">4.4</span>
+              </div>
+              <div class="prop-meta">
+                <span class="prop-dist">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                  89 km away
+                </span>
+                <div class="prop-price"><strong>$175</strong> <span>/ night</span></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="prop-card" data-price="420" data-dist="12">
+            <div class="prop-img-wrap">
+              <img src="../images/c8.jpeg" alt="Urban Retreat Toronto" loading="lazy">
+              <span class="prop-badge">Luxury</span>
+              <button class="prop-fav" aria-label="Save Urban Retreat to favourites" onclick="toggleFav(this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              </button>
+            </div>
+            <div class="prop-body">
+              <div class="prop-loc">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Toronto, Ontario
+              </div>
+              <h2 class="prop-name">Urban Retreat Toronto</h2>
+              <div class="prop-stars" aria-label="5.0 star rating">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span style="font-size:.78rem;color:var(--text-muted);margin-left:.25rem;font-weight:700">5.0</span>
+              </div>
+              <div class="prop-meta">
+                <span class="prop-dist">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                  12 km away
+                </span>
+                <div class="prop-price"><strong>$420</strong> <span>/ night</span></div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+              <path d="M9 21V12h6v9"/>
+            </svg>
+            Hope
+          </div>
+          <p>Your home away from home. Discover unique cottages, hotels, and retreats across beautiful Canada.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="cottage.html">Cottages</a></li>
+            <li><a href="hotels.html">Hotels</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Hope</a></li>
+            <li><a href="#">How it works</a></li>
+            <li><a href="#">Trust &amp; Safety</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">Cancellation</a></li>
+            <li><a href="#">Host resources</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Hope.ca · All rights reserved</p>
+        <p>Brampton · Milton · Toronto · Canada</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../scripts/main.js"></script>
 </body>
 </html>
