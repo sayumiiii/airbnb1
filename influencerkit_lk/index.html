@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InfluencerKit LK — Dashboard</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <h1>InfluencerKit</h1>
+      <p>Sri Lanka 🇱🇰</p>
+    </div>
+    <a href="index.html" class="nav-item active"><span class="nav-icon">🏠</span><span>Dashboard</span></a>
+    <a href="profile.html" class="nav-item"><span class="nav-icon">🪪</span><span>My Profile</span></a>
+    <a href="rates.html" class="nav-item"><span class="nav-icon">💰</span><span>Rate Card</span></a>
+    <a href="deals.html" class="nav-item"><span class="nav-icon">🤝</span><span>Brand Deals</span></a>
+    <a href="invoice.html" class="nav-item"><span class="nav-icon">🧾</span><span>Invoices</span></a>
+    <div class="sidebar-bottom">
+      <div class="premium-badge" onclick="showPremium()">⚡ Go Premium<small>LKR 1,500 one-time</small></div>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="page-header">
+      <h2>Dashboard</h2>
+      <p>Welcome back, <span id="dash-name">Creator</span> 👋</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-title">Total Earned</div>
+        <div class="card-value" id="stat-earned">LKR 0</div>
+        <div class="card-sub">All time</div>
+      </div>
+      <div class="card">
+        <div class="card-title">This Month</div>
+        <div class="card-value" id="stat-month">LKR 0</div>
+        <div class="card-sub" id="stat-month-label">April 2025</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Outstanding</div>
+        <div class="card-value" id="stat-outstanding" style="color:#F39C12">LKR 0</div>
+        <div class="card-sub">Awaiting payment</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Active Deals</div>
+        <div class="card-value" id="stat-active">0</div>
+        <div class="card-sub">In progress</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Recent Deals -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+          <h3 style="font-size:1rem;">Recent Deals</h3>
+          <a href="deals.html" class="btn btn-outline btn-sm">View all</a>
+        </div>
+        <div id="recent-deals">
+          <div class="empty-state">
+            <div class="icon">🤝</div>
+            <h3>No deals yet</h3>
+            <p>Add your first brand deal to get started</p>
+            <br>
+            <a href="deals.html" class="btn btn-primary btn-sm">+ Add Deal</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div style="display:flex; flex-direction:column; gap:1rem;">
+        <div class="card">
+          <h3 style="font-size:1rem; margin-bottom:1rem;">Quick Actions</h3>
+          <div style="display:flex; flex-direction:column; gap:0.6rem;">
+            <a href="deals.html#new" class="btn btn-primary">🤝 Add Brand Deal</a>
+            <a href="invoice.html#new" class="btn btn-outline">🧾 Create Invoice</a>
+            <a href="profile.html" class="btn btn-outline">🪪 Update Media Kit</a>
+            <a href="rates.html" class="btn btn-outline">💰 Check My Rates</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size:1rem; margin-bottom:0.75rem;">Deal Status Breakdown</h3>
+          <div id="status-breakdown">
+            <p style="color:var(--muted); font-size:0.85rem;">No deals yet</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overdue alert -->
+    <div id="overdue-alert" style="display:none; margin-top:1rem;">
+      <div class="card" style="border-color:#E74C3C; background:rgba(231,76,60,0.08);">
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <span style="font-size:1.5rem;">⚠️</span>
+          <div>
+            <strong>Overdue Payments</strong>
+            <p style="font-size:0.85rem; color:var(--muted); margin-top:2px;" id="overdue-msg"></p>
+          </div>
+          <a href="deals.html" class="btn btn-outline btn-sm" style="margin-left:auto;">View</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Premium Modal -->
+<div class="modal-overlay" id="premium-modal">
+  <div class="modal">
+    <h3>⚡ Unlock Premium</h3>
+    <p style="color:var(--muted); font-size:0.9rem; margin-bottom:1.5rem;">One-time payment. Everything unlocked forever.</p>
+    <div style="display:grid; gap:0.6rem; margin-bottom:1.5rem;">
+      <div style="display:flex; gap:0.75rem; align-items:center; font-size:0.9rem;"><span>✅</span> Unlimited brand deals</div>
+      <div style="display:flex; gap:0.75rem; align-items:center; font-size:0.9rem;"><span>✅</span> Unlimited portfolio photos</div>
+      <div style="display:flex; gap:0.75rem; align-items:center; font-size:0.9rem;"><span>✅</span> 5 premium media kit templates</div>
+      <div style="display:flex; gap:0.75rem; align-items:center; font-size:0.9rem;"><span>✅</span> Full invoice history & export</div>
+      <div style="display:flex; gap:0.75rem; align-items:center; font-size:0.9rem;"><span>✅</span> Rate card market comparison</div>
+    </div>
+    <div style="text-align:center; margin-bottom:1.5rem;">
+      <div style="font-size:2rem; font-weight:800; background:linear-gradient(135deg,#E91E8C,#7B2FBE); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">LKR 1,500</div>
+      <div style="color:var(--muted); font-size:0.8rem;">one-time • no subscription</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closePremium()">Maybe later</button>
+      <button class="btn btn-primary" onclick="activatePremium()">🔓 Unlock Now</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const profile = IK.getProfile();
+    if (profile.name) document.getElementById('dash-name').textContent = profile.name;
+
+    const deals = IK.getDeals();
+    const now = new Date();
+    const monthLabel = now.toLocaleString('default', { month: 'long', year: 'numeric' });
+    document.getElementById('stat-month-label').textContent = monthLabel;
+
+    let totalEarned = 0, thisMonth = 0, outstanding = 0, active = 0;
+    const statusCount = {};
+    const overdue = [];
+
+    deals.forEach(d => {
+      statusCount[d.status] = (statusCount[d.status] || 0) + 1;
+      const amount = parseFloat(d.amount) || 0;
+      if (d.status === 'paid') { totalEarned += amount; }
+      if (d.status !== 'paid') { active++; }
+      if (['confirmed','delivered'].includes(d.status)) outstanding += amount;
+      const due = d.paymentDue ? new Date(d.paymentDue) : null;
+      if (due && due < now && d.status !== 'paid') overdue.push(d);
+      if (d.status === 'paid' && d.paymentDue) {
+        const pd = new Date(d.paymentDue);
+        if (pd.getMonth() === now.getMonth() && pd.getFullYear() === now.getFullYear()) thisMonth += amount;
+      }
+    });
+
+    document.getElementById('stat-earned').textContent = 'LKR ' + totalEarned.toLocaleString();
+    document.getElementById('stat-month').textContent = 'LKR ' + thisMonth.toLocaleString();
+    document.getElementById('stat-outstanding').textContent = 'LKR ' + outstanding.toLocaleString();
+    document.getElementById('stat-active').textContent = active;
+
+    // Recent deals
+    const recentEl = document.getElementById('recent-deals');
+    if (deals.length > 0) {
+      recentEl.innerHTML = deals.slice(-4).reverse().map(d => `
+        <div class="deal-card" style="margin-bottom:0.5rem;">
+          <div class="deal-info">
+            <h4>${d.brand}</h4>
+            <p>${d.deliverable} • LKR ${parseFloat(d.amount).toLocaleString()}</p>
+          </div>
+          <span class="badge badge-${d.status}">${d.status}</span>
+        </div>`).join('');
+    }
+
+    // Status breakdown
+    const sbEl = document.getElementById('status-breakdown');
+    if (deals.length > 0) {
+      sbEl.innerHTML = Object.entries(statusCount).map(([s, c]) =>
+        `<div style="display:flex;justify-content:space-between;font-size:0.85rem;padding:0.3rem 0;border-bottom:1px solid var(--border);">
+          <span><span class="badge badge-${s}">${s}</span></span>
+          <span style="color:var(--muted);">${c} deal${c>1?'s':''}</span>
+        </div>`
+      ).join('');
+    }
+
+    // Overdue
+    if (overdue.length > 0) {
+      document.getElementById('overdue-alert').style.display = 'block';
+      document.getElementById('overdue-msg').textContent =
+        `${overdue.length} deal${overdue.length>1?'s are':' is'} overdue: ${overdue.map(d=>d.brand).join(', ')}`;
+    }
+  });
+
+  function showPremium() { document.getElementById('premium-modal').classList.add('open'); }
+  function closePremium() { document.getElementById('premium-modal').classList.remove('open'); }
+  function activatePremium() { IK.setPremium(true); closePremium(); alert('🎉 Premium unlocked! All features are now available.'); }
+</script>
+</body>
+</html>
