@@ -1,34 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>List Your Property — VisitLK</title>
+	<link rel="stylesheet" href="../styles/normalize.css">
+	<link rel="stylesheet" href="../styles/main.css">
 
-	<head>
-		<meta charset="utf-8">
-		<title>Hope</title>
-		<link rel="shortcut icon" href="../images/mercidies logo.png">
-		<link rel="stylesheet" href="../styles/normalize.css">
-		<link rel="stylesheet" href="../styles/images.css">
-	
-		<header>
-			<img src="../images/hope.header.jpg" alt="hope logo" height="80">
-			<h2>Hope</h2>
-			<h3>Feels like Home</h3>
-		</header>
-		<nav id="nav_menu">
-			<ul>
-				<li><a href="../index.html">Home</a></li>
-				<li><a href="../pages/cottage.html">Cottages</a></li>
-				<li><a href="../pages/hotels.html">Hotels</a></li>
-				<li><a href="#">Contacts</a>
-					<ul>
-						<li><a href="#">Contact Information</a></li>
-						
-					</ul>
-				</li>
-			</ul>
-		</nav>
-	</head>
+	<header>
+		<a href="#" class="lang-toggle">EN / සිං / தமிழ்</a>
+		<h1 class="shadow">VisitLK</h1>
+		<h2>Experience Lanka Like a Local</h2>
+		<h3>Tea estates &bull; Beach villas &bull; Temple stays &bull; Eco-camps</h3>
+	</header>
+	<nav id="nav_menu">
+		<ul>
+			<li><a href="../index.html">Home</a></li>
+			<li><a href="../pages/cottage.html">Browse Stays</a>
+				<ul>
+					<li><a href="../pages/cottage.html">All Stays</a></li>
+					<li><a href="../pages/hotels.html">Eco-camps &amp; Glamping</a></li>
+				</ul>
+			</li>
+			<li><a href="#">List Your Property</a></li>
+			<li><a href="../pages/table.html">Contact</a>
+				<ul>
+					<li><a href="../pages/table.html">Support &amp; Regions</a></li>
+				</ul>
+			</li>
+		</ul>
+	</nav>
+</head>
+
 <body>
-    
+	<main>
+		<div class="host-form">
+			<h2>Become a Host on VisitLK</h2>
+			<p>List your property and earn income by welcoming local and international guests. Fill in the form below and our team will contact you within 2 business days.</p>
+
+			<form action="#" method="post">
+				<label for="host-name">Your Full Name</label>
+				<input type="text" id="host-name" name="host_name" placeholder="e.g. Nimal Perera" required>
+
+				<label for="host-phone">WhatsApp / Phone Number</label>
+				<input type="tel" id="host-phone" name="host_phone" placeholder="e.g. +94 77 123 4567" required>
+
+				<label for="host-email">Email Address</label>
+				<input type="email" id="host-email" name="host_email" placeholder="e.g. nimal@example.com" required>
+
+				<label for="property-type">Property Type</label>
+				<select id="property-type" name="property_type" required>
+					<option value="">-- Select a type --</option>
+					<option value="tea_estate">Tea Estate Bungalow</option>
+					<option value="beach_villa">Beach Villa</option>
+					<option value="temple_stay">Temple / Monastery Stay</option>
+					<option value="eco_camp">Eco-camp / Glamping</option>
+					<option value="city_homestay">City Homestay</option>
+					<option value="jungle_retreat">Jungle Retreat</option>
+					<option value="heritage">Heritage / Colonial House</option>
+					<option value="other">Other</option>
+				</select>
+
+				<label for="district">District</label>
+				<select id="district" name="district" required>
+					<option value="">-- Select district --</option>
+					<option>Colombo</option>
+					<option>Gampaha</option>
+					<option>Kalutara</option>
+					<option>Kandy</option>
+					<option>Matale</option>
+					<option>Nuwara Eliya</option>
+					<option>Galle</option>
+					<option>Matara</option>
+					<option>Hambantota</option>
+					<option>Jaffna</option>
+					<option>Kilinochchi</option>
+					<option>Mannar</option>
+					<option>Vavuniya</option>
+					<option>Mullaitivu</option>
+					<option>Batticaloa</option>
+					<option>Ampara</option>
+					<option>Trincomalee</option>
+					<option>Kurunegala</option>
+					<option>Puttalam</option>
+					<option>Anuradhapura</option>
+					<option>Polonnaruwa</option>
+					<option>Badulla</option>
+					<option>Moneragala</option>
+					<option>Ratnapura</option>
+					<option>Kegalle</option>
+				</select>
+
+				<label for="description">Tell us about your property</label>
+				<textarea id="description" name="description" placeholder="Describe your property — size, unique features, nearby attractions..."></textarea>
+
+				<button type="submit">Submit Listing Request</button>
+			</form>
+
+			<p style="margin-top:1.5em; font-size:88%; color:#888;">
+				Prefer WhatsApp? Message us directly: <strong>+94 77 000 0000</strong>
+			</p>
+		</div>
+	</main>
+
+	<footer>
+		<p>&copy; 2025 VisitLK &mdash; Sri Lanka's Local Stay Marketplace &bull; info@visitlk.lk</p>
+	</footer>
 </body>
+
 </html>
