@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InfluencerKit LK — Invoices</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="app-shell">
+  <nav class="sidebar">
+    <div class="sidebar-logo"><h1>InfluencerKit</h1><p>Sri Lanka 🇱🇰</p></div>
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Dashboard</span></a>
+    <a href="profile.html" class="nav-item"><span class="nav-icon">🪪</span><span>My Profile</span></a>
+    <a href="rates.html" class="nav-item"><span class="nav-icon">💰</span><span>Rate Card</span></a>
+    <a href="deals.html" class="nav-item"><span class="nav-icon">🤝</span><span>Brand Deals</span></a>
+    <a href="invoice.html" class="nav-item active"><span class="nav-icon">🧾</span><span>Invoices</span></a>
+    <div class="sidebar-bottom">
+      <div class="premium-badge" onclick="showPremium()">⚡ Go Premium<small>LKR 1,500 one-time</small></div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <h2>Invoices</h2>
+        <p>Generate and send professional LKR invoices to brands</p>
+      </div>
+      <button class="btn btn-primary" onclick="openNewInvoice()">🧾 New Invoice</button>
+    </div>
+
+    <!-- Invoice builder -->
+    <div id="invoice-builder" style="display:none;">
+      <div class="grid-2" style="margin-bottom:1.5rem;">
+        <div class="card">
+          <h3 style="font-size:1rem; margin-bottom:1.25rem;">Invoice Details</h3>
+          <div class="form-group">
+            <label class="form-label">Bill To (Brand Name)</label>
+            <input type="text" class="form-control" id="inv-brand" placeholder="e.g. Dialog Axiata PLC">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Invoice Date</label>
+              <input type="date" class="form-control" id="inv-date">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Due Date</label>
+              <input type="date" class="form-control" id="inv-due">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description of Work</label>
+            <textarea class="form-control" id="inv-desc" placeholder="e.g. 1x Instagram Reel + 3x Stories for January campaign"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Amount (LKR)</label>
+            <input type="number" class="form-control" id="inv-amount" placeholder="e.g. 35000" oninput="updateInvPreview()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Payment Method</label>
+            <select class="form-control" id="inv-method">
+              <option>Bank Transfer</option>
+              <option>FriMi</option>
+              <option>Genie</option>
+              <option>eZ Cash</option>
+              <option>mCash</option>
+              <option>Cash</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Bank / Payment Details</label>
+            <textarea class="form-control" id="inv-bank" placeholder="Account No: 1234567890&#10;Bank: Commercial Bank&#10;Branch: Colombo"></textarea>
+          </div>
+          <div style="display:flex; gap:0.75rem; margin-top:0.5rem;">
+            <button class="btn btn-outline" onclick="closeBuilder()">Cancel</button>
+            <button class="btn btn-primary" style="flex:1;" onclick="generateInvoice()">📄 Generate & Print Invoice</button>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div>
+          <div style="font-size:0.8rem; color:var(--muted); margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">Preview</div>
+          <div class="invoice-preview" id="inv-preview">
+            <div class="invoice-header">
+              <div>
+                <h2>INVOICE</h2>
+                <div id="inv-prev-from" style="margin-top:0.5rem; font-size:0.85rem; color:#555;"></div>
+              </div>
+              <div style="text-align:right; font-size:0.85rem;">
+                <div id="inv-prev-num" style="font-weight:700; color:#E91E8C;"></div>
+                <div id="inv-prev-date" style="color:#888; margin-top:2px;"></div>
+              </div>
+            </div>
+            <div style="margin-bottom:1rem;">
+              <div style="font-size:0.75rem; text-transform:uppercase; color:#888; margin-bottom:0.25rem;">Bill To</div>
+              <div id="inv-prev-brand" style="font-weight:600;">—</div>
+            </div>
+            <table class="invoice-table">
+              <thead><tr><th>Description</th><th style="text-align:right;">Amount</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td id="inv-prev-desc">—</td>
+                  <td style="text-align:right;" id="inv-prev-amount">LKR 0</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="invoice-total" id="inv-prev-total">Total: LKR 0</div>
+            <div class="invoice-bank" id="inv-prev-bank"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Saved invoices -->
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+        <h3 style="font-size:1rem;">Invoice History</h3>
+        <span id="inv-count-badge" style="font-size:0.8rem; color:var(--muted);"></span>
+      </div>
+      <div id="invoices-list">
+        <div class="empty-state">
+          <div class="icon">🧾</div>
+          <h3>No invoices yet</h3>
+          <p>Create your first invoice to send to a brand</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="modal-overlay" id="premium-modal">
+  <div class="modal">
+    <h3>⚡ Unlock Premium</h3>
+    <p style="color:var(--muted); font-size:0.88rem; margin-bottom:1.5rem;">Free plan shows last 5 invoices only. Upgrade for full history and export.</p>
+    <div style="text-align:center; margin-bottom:1.5rem;">
+      <div style="font-size:2rem; font-weight:800; background:linear-gradient(135deg,#E91E8C,#7B2FBE); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">LKR 1,500</div>
+      <div style="color:var(--muted); font-size:0.8rem;">one-time • no subscription</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closePremium()">Maybe later</button>
+      <button class="btn btn-primary" onclick="activatePremium()">🔓 Unlock Now</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  function openNewInvoice() {
+    const profile = IK.getProfile();
+    document.getElementById('inv-date').value = new Date().toISOString().split('T')[0];
+    const due = new Date(); due.setDate(due.getDate() + 14);
+    document.getElementById('inv-due').value = due.toISOString().split('T')[0];
+    document.getElementById('inv-prev-from').innerHTML = `<strong>${profile.name || 'Your Name'}</strong><br>${profile.email || ''} ${profile.phone ? '• ' + profile.phone : ''}`;
+    document.getElementById('inv-prev-num').textContent = 'INV-' + String(IK.getInvoices().length + 1).padStart(4,'0');
+    document.getElementById('inv-prev-date').textContent = new Date().toLocaleDateString('en-GB');
+    document.getElementById('invoice-builder').style.display = 'block';
+    document.getElementById('invoice-builder').scrollIntoView({ behavior:'smooth' });
+
+    const params = new URLSearchParams(window.location.search);
+    const dealId = parseInt(params.get('deal'));
+    if (dealId) {
+      const deal = IK.getDeals().find(d => d.id === dealId);
+      if (deal) {
+        document.getElementById('inv-brand').value = deal.brand;
+        document.getElementById('inv-desc').value = deal.deliverable || '';
+        document.getElementById('inv-amount').value = deal.amount || '';
+        updateInvPreview();
+      }
+    }
+  }
+
+  function updateInvPreview() {
+    document.getElementById('inv-prev-brand').textContent = document.getElementById('inv-brand').value || '—';
+    document.getElementById('inv-prev-desc').textContent = document.getElementById('inv-desc').value || '—';
+    const amt = parseFloat(document.getElementById('inv-amount').value) || 0;
+    document.getElementById('inv-prev-amount').textContent = 'LKR ' + amt.toLocaleString();
+    document.getElementById('inv-prev-total').textContent = 'Total: LKR ' + amt.toLocaleString();
+    document.getElementById('inv-prev-bank').textContent = document.getElementById('inv-bank').value || '';
+    document.getElementById('inv-prev-date').textContent = document.getElementById('inv-date').value || '';
+  }
+
+  ['inv-brand','inv-desc','inv-bank','inv-date'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateInvPreview);
+  });
+
+  function generateInvoice() {
+    const brand = document.getElementById('inv-brand').value.trim();
+    if (!brand) { alert('Please enter a brand name.'); return; }
+    const profile = IK.getProfile();
+    const invoices = IK.getInvoices();
+    const inv = {
+      id: Date.now(),
+      number: 'INV-' + String(invoices.length + 1).padStart(4,'0'),
+      brand,
+      date: document.getElementById('inv-date').value,
+      due: document.getElementById('inv-due').value,
+      desc: document.getElementById('inv-desc').value,
+      amount: parseFloat(document.getElementById('inv-amount').value) || 0,
+      method: document.getElementById('inv-method').value,
+      bank: document.getElementById('inv-bank').value,
+    };
+
+    const isPremium = IK.isPremium();
+    if (!isPremium && invoices.length >= 5) { showPremium(); return; }
+
+    invoices.push(inv);
+    IK.saveInvoices(invoices);
+
+    // Open print window
+    const win = window.open('', '_blank');
+    win.document.write(`
+      <html><head><title>${inv.number} — ${inv.brand}</title>
+      <style>
+        body { font-family: Arial, sans-serif; max-width: 750px; margin: 2rem auto; padding: 2rem; color: #111; }
+        h1 { color: #E91E8C; font-size: 2rem; letter-spacing: 0.1em; }
+        .header { display: flex; justify-content: space-between; margin-bottom: 2rem; }
+        .from { font-size: 0.85rem; color: #555; margin-top: 0.5rem; }
+        .inv-num { font-weight: 800; color: #7B2FBE; font-size: 1.1rem; }
+        .bill-to { margin-bottom: 1.5rem; }
+        .bill-to label { font-size: 0.75rem; text-transform: uppercase; color: #888; }
+        .bill-to h3 { font-size: 1.1rem; margin-top: 0.25rem; }
+        table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+        th { background: #f5f5f5; padding: 0.7rem 1rem; text-align: left; font-size: 0.8rem; text-transform: uppercase; color: #555; }
+        td { padding: 0.75rem 1rem; border-bottom: 1px solid #eee; }
+        .total-row { text-align: right; font-size: 1.2rem; font-weight: 800; color: #E91E8C; padding: 1rem 0; }
+        .bank-details { background: #fafafa; padding: 1rem 1.25rem; border-radius: 8px; margin-top: 1.5rem; font-size: 0.85rem; color: #555; }
+        .bank-details h4 { font-size: 0.8rem; text-transform: uppercase; color: #888; margin-bottom: 0.5rem; }
+        .footer { margin-top: 2rem; font-size: 0.8rem; color: #aaa; text-align: center; border-top: 1px solid #eee; padding-top: 1rem; }
+        button { background: #E91E8C; color: white; border: none; padding: 0.75rem 2rem; border-radius: 8px; font-size: 1rem; cursor: pointer; margin-top: 1rem; }
+        @media print { button { display: none; } }
+      </style></head>
+      <body>
+        <div class="header">
+          <div>
+            <h1>INVOICE</h1>
+            <div class="from">${profile.name || 'Creator'}<br>${profile.email || ''} ${profile.phone ? '• ' + profile.phone : ''}</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="inv-num">${inv.number}</div>
+            <div style="font-size:0.85rem; color:#888; margin-top:4px;">Date: ${inv.date}<br>Due: ${inv.due}</div>
+          </div>
+        </div>
+        <div class="bill-to">
+          <label>Bill To</label>
+          <h3>${inv.brand}</h3>
+        </div>
+        <table>
+          <thead><tr><th>Description</th><th style="text-align:right;">Amount (LKR)</th></tr></thead>
+          <tbody><tr><td>${inv.desc || 'Influencer marketing services'}</td><td style="text-align:right;">${inv.amount.toLocaleString()}</td></tr></tbody>
+        </table>
+        <div class="total-row">Total: LKR ${inv.amount.toLocaleString()}</div>
+        ${inv.bank ? `<div class="bank-details"><h4>Payment Details (${inv.method})</h4>${inv.bank.replace(/\n/g,'<br>')}</div>` : ''}
+        <div class="footer">Generated with InfluencerKit LK • influencerkit.lk</div>
+        <button onclick="window.print()">🖨️ Print / Save as PDF</button>
+      </body></html>`);
+    win.document.close();
+
+    closeBuilder();
+    renderInvoices();
+  }
+
+  function closeBuilder() {
+    document.getElementById('invoice-builder').style.display = 'none';
+  }
+
+  function renderInvoices() {
+    const isPremium = IK.isPremium();
+    let invoices = IK.getInvoices();
+    const total = invoices.length;
+    if (!isPremium) invoices = invoices.slice(-5);
+    invoices = invoices.reverse();
+
+    document.getElementById('inv-count-badge').textContent = isPremium ? `${total} invoices` : `Showing last 5 of ${total}`;
+
+    const el = document.getElementById('invoices-list');
+    if (!invoices.length) {
+      el.innerHTML = '<div class="empty-state"><div class="icon">🧾</div><h3>No invoices yet</h3><p>Create your first invoice to send to a brand</p></div>';
+      return;
+    }
+    el.innerHTML = `<div class="table-wrap"><table>
+      <thead><tr><th>Invoice #</th><th>Brand</th><th>Date</th><th>Due</th><th style="text-align:right;">Amount</th></tr></thead>
+      <tbody>${invoices.map(inv => `
+        <tr>
+          <td style="color:var(--pink); font-weight:600;">${inv.number}</td>
+          <td>${inv.brand}</td>
+          <td style="color:var(--muted);">${inv.date}</td>
+          <td style="color:var(--muted);">${inv.due}</td>
+          <td style="text-align:right; font-weight:600;">LKR ${inv.amount.toLocaleString()}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table></div>`;
+
+    if (!isPremium && total > 5) {
+      el.innerHTML += `<div style="text-align:center; padding:1rem; font-size:0.85rem; color:var(--muted);">Upgrade to see full history <button class="btn btn-primary btn-sm" onclick="showPremium()" style="margin-left:0.5rem;">⚡ Unlock</button></div>`;
+    }
+  }
+
+  function showPremium() { document.getElementById('premium-modal').classList.add('open'); }
+  function closePremium() { document.getElementById('premium-modal').classList.remove('open'); }
+  function activatePremium() { IK.setPremium(true); closePremium(); alert('🎉 Premium unlocked!'); renderInvoices(); }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderInvoices();
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('deal') || window.location.hash === '#new') openNewInvoice();
+  });
+</script>
+</body>
+</html>
