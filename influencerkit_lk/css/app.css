@@ -342,14 +342,98 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   cursor: pointer;
 }
 
+/* ── Bottom nav (mobile only) ── */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--dark2);
+  border-top: 1px solid var(--border);
+  z-index: 150;
+  padding: 0.4rem 0 calc(0.4rem + env(safe-area-inset-bottom));
+}
+.bottom-nav-inner {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.65rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  min-width: 52px;
+  transition: color 0.15s;
+}
+.bottom-nav a .bn-icon { font-size: 1.35rem; line-height: 1; }
+.bottom-nav a.active { color: var(--pink); }
+.bottom-nav a:hover { color: var(--text); }
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .sidebar { width: 60px; }
-  .sidebar-logo, .nav-item span, .sidebar-bottom { display: none; }
-  .nav-icon { font-size: 1.3rem; }
-  .nav-item { justify-content: center; padding: 0.9rem; }
-  .main { margin-left: 60px; padding: 1rem; }
-  .grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  /* Hide desktop sidebar */
+  .sidebar { display: none; }
+
+  /* Show bottom nav */
+  .bottom-nav { display: block; }
+
+  /* Main takes full width, padding-bottom for bottom nav */
+  .main {
+    margin-left: 0;
+    padding: 1rem 0.85rem;
+    padding-bottom: 80px;
+  }
+
+  /* Page header stacks nicely */
+  .page-header { margin-bottom: 1.25rem; }
+  .page-header h2 { font-size: 1.3rem; }
+
+  /* Grids collapse to single column */
+  .grid-4 { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 0.75rem; }
   .form-row { grid-template-columns: 1fr; }
+
+  /* Cards slightly less padding */
+  .card { padding: 1rem 1rem; }
+
+  /* Deal cards stack vertically */
+  .deal-card { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .deal-actions { width: 100%; justify-content: flex-start; }
+
+  /* Rate result grid 1 col on very small */
+  .rate-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Modal full-screen on mobile */
+  .modal-overlay { align-items: flex-end; }
+  .modal {
+    max-width: 100%;
+    border-radius: var(--radius) var(--radius) 0 0;
+    max-height: 92vh;
+    padding: 1.5rem 1.25rem;
+  }
+
+  /* Profile preview compact */
+  .profile-stats { gap: 1.25rem; }
+
+  /* Bigger tap targets for buttons */
+  .btn { padding: 0.75rem 1.25rem; font-size: 0.9rem; }
+  .btn-sm { padding: 0.55rem 1rem; font-size: 0.82rem; }
+
+  /* Tables scroll horizontally */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* Premium badge in bottom nav area instead */
+  .sidebar-bottom { display: none; }
+}
+
+@media (max-width: 420px) {
+  .grid-4 { grid-template-columns: 1fr 1fr; }
+  .card-value { font-size: 1.5rem; }
+  .rate-range { font-size: 1.6rem !important; }
+  .main { padding: 0.85rem 0.7rem; padding-bottom: 80px; }
 }
