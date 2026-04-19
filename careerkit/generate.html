@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerKit — Generate</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="app-shell">
+  <nav class="sidebar">
+    <div class="sidebar-logo"><h1>CareerKit</h1><p>Your career, documented 💼</p></div>
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Dashboard</span></a>
+    <a href="journal.html" class="nav-item"><span class="nav-icon">🏆</span><span>Achievement Journal</span></a>
+    <a href="generate.html" class="nav-item active"><span class="nav-icon">✨</span><span>Generate CV / LinkedIn</span></a>
+    <a href="decoder.html" class="nav-item"><span class="nav-icon">🕵️</span><span>JD Decoder</span></a>
+    <div class="sidebar-bottom">
+      <div class="premium-badge" onclick="showPremium()">⚡ Go Premium<small>LKR 1,500 one-time</small></div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="page-header">
+      <h2>Generate CV & LinkedIn Content</h2>
+      <p>Turn your journal entries into polished professional content — one click.</p>
+    </div>
+
+    <div id="no-entries-notice" style="display:none;">
+      <div class="empty-state">
+        <div class="icon">📝</div>
+        <h3>No journal entries yet</h3>
+        <p>Log some wins first, then come back to generate your CV and LinkedIn content.</p>
+        <br>
+        <a href="journal.html#new" class="btn btn-primary">+ Log a Win</a>
+      </div>
+    </div>
+
+    <div id="generate-content">
+      <!-- Filter bar -->
+      <div style="display:flex; gap:0.75rem; margin-bottom:1.5rem; flex-wrap:wrap; align-items:center;">
+        <select class="form-control" id="gen-month" style="width:auto; font-size:0.85rem;" onchange="generateAll()">
+          <option value="">All time</option>
+        </select>
+        <select class="form-control" id="gen-cat" style="width:auto; font-size:0.85rem;" onchange="generateAll()">
+          <option value="">All categories</option>
+          <option value="shipped">Shipped</option>
+          <option value="closed">Closed</option>
+          <option value="led">Led</option>
+          <option value="built">Built</option>
+          <option value="learned">Learned</option>
+          <option value="saved">Saved</option>
+          <option value="recognized">Recognized</option>
+        </select>
+        <span id="gen-entry-count" style="color:var(--muted); font-size:0.82rem;"></span>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('cv', this)">📄 CV Bullets</button>
+        <button class="tab-btn" onclick="switchTab('linkedin', this)" id="tab-linkedin">💼 LinkedIn Summary <span id="linkedin-lock" style="font-size:0.75rem; color:var(--orange);">⚡ Premium</span></button>
+        <button class="tab-btn" onclick="switchTab('review', this)" id="tab-review">📊 Self-Review <span id="review-lock" style="font-size:0.75rem; color:var(--orange);">⚡ Premium</span></button>
+      </div>
+
+      <!-- CV Bullets -->
+      <div class="tab-pane active" id="tab-cv">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+          <p style="font-size:0.85rem; color:var(--muted);">Ready to paste into your CV. Each bullet follows the <strong style="color:var(--text);">Action Verb + Achievement + Impact</strong> format.</p>
+          <button class="btn btn-outline btn-sm" onclick="copyOutput('cv-output')">📋 Copy All</button>
+        </div>
+        <div class="output-box" id="cv-output"></div>
+        <div id="cv-limit-notice" style="display:none; margin-top:0.75rem; padding:0.75rem 1rem; background:var(--blue-glow); border:1px solid rgba(10,102,194,0.3); border-radius:8px; font-size:0.85rem; color:var(--muted);">
+          Showing first 5 entries. <button class="btn btn-primary btn-sm" onclick="showPremium()" style="margin-left:0.5rem;">⚡ Unlock all — LKR 1,500</button>
+        </div>
+      </div>
+
+      <!-- LinkedIn Summary -->
+      <div class="tab-pane" id="tab-linkedin-pane">
+        <div id="linkedin-gate" style="text-align:center; padding:3rem 1rem;">
+          <div style="font-size:3rem; margin-bottom:1rem;">💼</div>
+          <h3 style="margin-bottom:0.5rem;">LinkedIn Summary Generator</h3>
+          <p style="color:var(--muted); font-size:0.88rem; margin-bottom:1.5rem;">Automatically assembles a 3-paragraph LinkedIn About section from your journal entries. Sounds human, not robotic.</p>
+          <button class="btn btn-primary" onclick="unlockOrShow('linkedin')">⚡ Unlock with Premium — LKR 1,500</button>
+        </div>
+        <div id="linkedin-content" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+            <p style="font-size:0.85rem; color:var(--muted);">Paste this into your LinkedIn <strong style="color:var(--text);">About</strong> section.</p>
+            <button class="btn btn-outline btn-sm" onclick="copyOutput('linkedin-output')">📋 Copy</button>
+          </div>
+          <div class="output-box" id="linkedin-output"></div>
+        </div>
+      </div>
+
+      <!-- Self-Review -->
+      <div class="tab-pane" id="tab-review-pane">
+        <div id="review-gate" style="text-align:center; padding:3rem 1rem;">
+          <div style="font-size:3rem; margin-bottom:1rem;">📊</div>
+          <h3 style="margin-bottom:0.5rem;">Performance Self-Review Generator</h3>
+          <p style="color:var(--muted); font-size:0.88rem; margin-bottom:1.5rem;">Generates a structured self-review paragraph grouped by category. Perfect for annual reviews and 1-on-1s.</p>
+          <button class="btn btn-primary" onclick="unlockOrShow('review')">⚡ Unlock with Premium — LKR 1,500</button>
+        </div>
+        <div id="review-content" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+            <p style="font-size:0.85rem; color:var(--muted);">Paste this into your performance review or share with your manager.</p>
+            <button class="btn btn-outline btn-sm" onclick="copyOutput('review-output')">📋 Copy</button>
+          </div>
+          <div class="output-box" id="review-output"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="index.html"><span class="bn-icon">🏠</span>Home</a>
+    <a href="journal.html"><span class="bn-icon">🏆</span>Journal</a>
+    <a href="generate.html" class="active"><span class="bn-icon">✨</span>Generate</a>
+    <a href="decoder.html"><span class="bn-icon">🕵️</span>Decoder</a>
+  </div>
+</nav>
+
+<div class="modal-overlay" id="premium-modal">
+  <div class="modal">
+    <h3>⚡ Unlock Premium</h3>
+    <div style="text-align:center; margin-bottom:1.5rem;">
+      <div style="font-size:2rem; font-weight:800; color:var(--blue);">LKR 1,500</div>
+      <div style="color:var(--muted); font-size:0.8rem;">one-time • no subscription</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closePremium()">Maybe later</button>
+      <button class="btn btn-primary" onclick="activatePremium()">🔓 Unlock Now</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  function getFiltered() {
+    let entries = CK.getEntries();
+    const month = document.getElementById('gen-month').value;
+    const cat = document.getElementById('gen-cat').value;
+    if (month) entries = entries.filter(e => e.date && e.date.startsWith(month));
+    if (cat) entries = entries.filter(e => e.category === cat);
+    return entries;
+  }
+
+  function generateAll() {
+    const all = CK.getEntries();
+    const filtered = getFiltered();
+    const isPremium = CK.isPremium();
+
+    document.getElementById('gen-entry-count').textContent = `${filtered.length} entr${filtered.length===1?'y':'ies'}`;
+
+    // CV bullets
+    const cvEntries = isPremium ? filtered : filtered.slice(0, 5);
+    document.getElementById('cv-limit-notice').style.display = (!isPremium && filtered.length > 5) ? 'block' : 'none';
+    if (!cvEntries.length) {
+      document.getElementById('cv-output').innerHTML = '<span style="color:var(--muted);">No entries match your filter.</span>';
+    } else {
+      document.getElementById('cv-output').innerHTML = cvEntries.map(e =>
+        `<div class="bullet">• ${toCVBullet(e)}</div>`
+      ).join('');
+    }
+
+    // LinkedIn summary
+    if (isPremium) {
+      document.getElementById('linkedin-gate').style.display = 'none';
+      document.getElementById('linkedin-content').style.display = 'block';
+      generateLinkedIn(filtered);
+    }
+
+    // Self-review
+    if (isPremium) {
+      document.getElementById('review-gate').style.display = 'none';
+      document.getElementById('review-content').style.display = 'block';
+      generateReview(filtered);
+    }
+  }
+
+  function generateLinkedIn(entries) {
+    if (!entries.length) { document.getElementById('linkedin-output').textContent = 'No entries to generate from.'; return; }
+    const settings = CK.getSettings();
+    const name = settings.name || 'I';
+    const shipped = entries.filter(e => ['shipped','built'].includes(e.category));
+    const led = entries.filter(e => e.category === 'led');
+    const saved = entries.filter(e => e.category === 'saved');
+    const learned = entries.filter(e => e.category === 'learned');
+    const recognized = entries.filter(e => e.category === 'recognized');
+
+    let p1 = `I'm a results-driven professional with a track record of delivering impact.`;
+    if (shipped.length) p1 += ` Recent highlights include ${shipped.slice(0,2).map(e => e.title.toLowerCase()).join(' and ')}.`;
+
+    let p2 = '';
+    if (led.length) p2 += `I thrive in leadership settings — ${led[0].title.toLowerCase()}. `;
+    if (saved.length) p2 += `I'm focused on efficiency and impact: ${saved[0].title.toLowerCase()}${saved[0].metrics ? ' (' + saved[0].metrics + ')' : ''}. `;
+    if (!p2) p2 = `I bring a collaborative approach to everything I do, focusing on outcomes that matter.`;
+
+    let p3 = `I'm always growing — `;
+    if (learned.length) p3 += `recently ${learned[0].title.toLowerCase()}. `;
+    if (recognized.length) p3 += `I was also ${recognized[0].title.toLowerCase()}. `;
+    p3 += `Open to connecting with like-minded professionals.`;
+
+    document.getElementById('linkedin-output').textContent = [p1, p2, p3].join('\n\n');
+  }
+
+  function generateReview(entries) {
+    if (!entries.length) { document.getElementById('review-output').textContent = 'No entries to generate from.'; return; }
+    const cats = {};
+    entries.forEach(e => { if (!cats[e.category]) cats[e.category] = []; cats[e.category].push(e); });
+
+    let review = 'PERFORMANCE SELF-REVIEW\n' + '─'.repeat(40) + '\n\n';
+    const catLabels = { shipped:'Delivery & Execution', closed:'Business Impact', led:'Leadership', built:'Technical Contributions', learned:'Learning & Development', saved:'Efficiency & Optimisation', recognized:'Recognition' };
+
+    Object.entries(cats).forEach(([cat, items]) => {
+      review += `${catLabels[cat] || cat.toUpperCase()}\n`;
+      items.forEach(e => {
+        review += `• ${toCVBullet(e)}\n`;
+      });
+      review += '\n';
+    });
+
+    document.getElementById('review-output').textContent = review.trim();
+  }
+
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const paneMap = { cv: 'tab-cv', linkedin: 'tab-linkedin-pane', review: 'tab-review-pane' };
+    document.getElementById(paneMap[name]).classList.add('active');
+  }
+
+  function unlockOrShow(type) {
+    if (CK.isPremium()) { generateAll(); }
+    else showPremium();
+  }
+
+  function copyOutput(id) {
+    const el = document.getElementById(id);
+    const text = el.innerText || el.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event.target;
+      btn.textContent = '✅ Copied!';
+      setTimeout(() => btn.textContent = '📋 Copy', 2000);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      alert('Copied!');
+    });
+  }
+
+  function showPremium() { document.getElementById('premium-modal').classList.add('open'); }
+  function closePremium() { document.getElementById('premium-modal').classList.remove('open'); }
+  function activatePremium() {
+    CK.setPremium(true); closePremium(); alert('🎉 Premium unlocked!');
+    document.getElementById('linkedin-lock').style.display = 'none';
+    document.getElementById('review-lock').style.display = 'none';
+    generateAll();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const entries = CK.getEntries();
+    if (!entries.length) {
+      document.getElementById('no-entries-notice').style.display = 'block';
+      document.getElementById('generate-content').style.display = 'none';
+      return;
+    }
+    const months = [...new Set(entries.map(e => e.date ? e.date.slice(0,7) : ''))].filter(Boolean).sort().reverse();
+    const sel = document.getElementById('gen-month');
+    sel.innerHTML = '<option value="">All time</option>' + months.map(m => `<option value="${m}">${new Date(m+'-01').toLocaleString('default',{month:'long',year:'numeric'})}</option>`).join('');
+
+    if (CK.isPremium()) {
+      document.getElementById('linkedin-lock').style.display = 'none';
+      document.getElementById('review-lock').style.display = 'none';
+    }
+
+    if (window.location.hash === '#linkedin') switchTab('linkedin', document.getElementById('tab-linkedin'));
+    generateAll();
+  });
+</script>
+</body>
+</html>

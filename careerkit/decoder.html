@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerKit — JD Decoder</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="app-shell">
+  <nav class="sidebar">
+    <div class="sidebar-logo"><h1>CareerKit</h1><p>Your career, documented 💼</p></div>
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Dashboard</span></a>
+    <a href="journal.html" class="nav-item"><span class="nav-icon">🏆</span><span>Achievement Journal</span></a>
+    <a href="generate.html" class="nav-item"><span class="nav-icon">✨</span><span>Generate CV / LinkedIn</span></a>
+    <a href="decoder.html" class="nav-item active"><span class="nav-icon">🕵️</span><span>JD Decoder</span></a>
+    <div class="sidebar-bottom">
+      <div class="premium-badge" onclick="showPremium()">⚡ Go Premium<small>LKR 1,500 one-time</small></div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="page-header">
+      <h2>Job Description Decoder 🕵️</h2>
+      <p>Paste any job posting. We'll expose the red flags, translate the corporate speak, and give you a straight verdict.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- Input -->
+      <div class="card">
+        <h3 style="font-size:1rem; margin-bottom:1rem;">Paste Job Description</h3>
+        <textarea class="form-control" id="jd-input" style="min-height:320px;" placeholder="Paste the full job description here...
+
+We're looking for a passionate rockstar who thrives in a fast-paced environment and wears many hats..."></textarea>
+        <div style="display:flex; gap:0.75rem; margin-top:1rem;">
+          <button class="btn btn-outline btn-sm" onclick="clearAll()">Clear</button>
+          <button class="btn btn-primary" style="flex:1;" onclick="decode()">🔍 Decode This JD</button>
+        </div>
+        <div style="margin-top:1rem; padding:0.75rem; background:var(--dark); border-radius:8px; font-size:0.8rem; color:var(--muted);">
+          💡 Works 100% offline. Nothing is sent anywhere. Your JD stays on your device.
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="results-placeholder">
+        <div class="empty-state" style="padding:4rem 1rem;">
+          <div class="icon">🕵️</div>
+          <h3>Paste a job description</h3>
+          <p>We'll decode it instantly — red flags, corporate speak, real requirements and more.</p>
+        </div>
+      </div>
+
+      <div id="results" style="display:none;">
+        <!-- Verdict -->
+        <div id="verdict-box" class="verdict"></div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('flags',this)">🚩 Red Flags <span id="flag-count-badge" class="badge" style="background:rgba(231,76,60,0.15); color:var(--red); font-size:0.7rem;"></span></button>
+          <button class="tab-btn" onclick="switchTab('green',this)">✅ Green Flags <span id="green-count-badge" class="badge" style="background:rgba(46,204,113,0.15); color:var(--green); font-size:0.7rem;"></span></button>
+          <button class="tab-btn" onclick="switchTab('reqs',this)">📋 Requirements</button>
+          <button class="tab-btn" onclick="switchTab('translate',this)">💬 Plain English</button>
+        </div>
+
+        <div class="tab-pane active" id="tab-flags">
+          <div id="flags-list"></div>
+        </div>
+        <div class="tab-pane" id="tab-green">
+          <div id="green-list"></div>
+        </div>
+        <div class="tab-pane" id="tab-reqs">
+          <div id="reqs-content"></div>
+        </div>
+        <div class="tab-pane" id="tab-translate">
+          <p style="font-size:0.82rem; color:var(--muted); margin-bottom:1rem;">Corporate buzzwords translated to plain English.</p>
+          <div id="translate-content"></div>
+          <div id="no-jargon" style="display:none; color:var(--green); font-size:0.9rem; padding:1rem 0;">✅ No major corporate jargon detected. Refreshingly clear!</div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="index.html"><span class="bn-icon">🏠</span>Home</a>
+    <a href="journal.html"><span class="bn-icon">🏆</span>Journal</a>
+    <a href="generate.html"><span class="bn-icon">✨</span>Generate</a>
+    <a href="decoder.html" class="active"><span class="bn-icon">🕵️</span>Decoder</a>
+  </div>
+</nav>
+
+<div class="modal-overlay" id="premium-modal">
+  <div class="modal">
+    <h3>⚡ Unlock Premium</h3>
+    <div style="text-align:center; margin-bottom:1.5rem;">
+      <div style="font-size:2rem; font-weight:800; color:var(--blue);">LKR 1,500</div>
+      <div style="color:var(--muted); font-size:0.8rem;">one-time • no subscription</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closePremium()">Maybe later</button>
+      <button class="btn btn-primary" onclick="activatePremium()">🔓 Unlock Now</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/decoder-data.js"></script>
+<script>
+  function decode() {
+    const text = document.getElementById('jd-input').value.trim();
+    if (!text) { alert('Please paste a job description first.'); return; }
+
+    CK.incDecodes();
+
+    // Red flags
+    const foundFlags = RED_FLAGS.filter(f => f.pattern.test(text));
+
+    // Green flags
+    const foundGreen = GREEN_FLAGS.filter(f => f.pattern.test(text));
+
+    // Verdict
+    const verdictBox = document.getElementById('verdict-box');
+    if (foundFlags.length === 0) {
+      verdictBox.className = 'verdict verdict-green';
+      verdictBox.innerHTML = `<div class="verdict-icon">🟢</div><div class="verdict-text"><h3>Looks Legit</h3><p>No major red flags detected. This posting seems honest and straightforward.</p></div>`;
+    } else if (foundFlags.length <= 2) {
+      verdictBox.className = 'verdict verdict-yellow';
+      verdictBox.innerHTML = `<div class="verdict-icon">🟡</div><div class="verdict-text"><h3>Proceed with Caution</h3><p>${foundFlags.length} red flag${foundFlags.length>1?'s':''} found. Ask about these in the interview before accepting.</p></div>`;
+    } else {
+      verdictBox.className = 'verdict verdict-red';
+      verdictBox.innerHTML = `<div class="verdict-icon">🔴</div><div class="verdict-text"><h3>Run. Seriously.</h3><p>${foundFlags.length} red flags found. This posting has multiple warning signs of a toxic or misleading workplace.</p></div>`;
+    }
+
+    // Flags list
+    document.getElementById('flag-count-badge').textContent = foundFlags.length;
+    const flagsList = document.getElementById('flags-list');
+    if (!foundFlags.length) {
+      flagsList.innerHTML = '<div style="color:var(--green); padding:1rem 0; font-size:0.9rem;">✅ No red flags detected in this job description.</div>';
+    } else {
+      flagsList.innerHTML = foundFlags.map(f => `
+        <div class="flag-item flag-red">
+          <div class="phrase">🚩 "${f.phrase}"</div>
+          <div class="explain">${f.explain}</div>
+        </div>`).join('');
+    }
+
+    // Green flags
+    document.getElementById('green-count-badge').textContent = foundGreen.length;
+    const greenList = document.getElementById('green-list');
+    if (!foundGreen.length) {
+      greenList.innerHTML = '<div style="color:var(--muted); padding:1rem 0; font-size:0.85rem;">No specific green flags detected — not necessarily bad, just not explicitly mentioned.</div>';
+    } else {
+      greenList.innerHTML = foundGreen.map(f => `
+        <div class="flag-item flag-green">
+          <div class="explain">✅ ${f.explain}</div>
+        </div>`).join('');
+    }
+
+    // Requirements split
+    const lines = text.split(/\n|•|-|\*/).map(l => l.trim()).filter(l => l.length > 10);
+    const mustHave = lines.filter(l => /\b(required|must have|must be|minimum|essential|you (must|need|should have)|mandatory)\b/i.test(l));
+    const niceHave = lines.filter(l => /\b(preferred|nice to have|bonus|advantageous|ideally|a plus|desirable|optional)\b/i.test(l));
+    const reqEl = document.getElementById('reqs-content');
+    reqEl.innerHTML = `
+      <div class="req-must">
+        <div class="req-label">Must Have (${mustHave.length})</div>
+        ${mustHave.length ? `<ul class="req-list">${mustHave.slice(0,10).map(r=>`<li>${r.replace(/^[-•*\s]+/,'')}</li>`).join('')}</ul>` : '<p style="color:var(--muted); font-size:0.82rem;">No explicitly required skills found</p>'}
+      </div>
+      <div class="req-nice">
+        <div class="req-label">Nice to Have (${niceHave.length})</div>
+        ${niceHave.length ? `<ul class="req-list">${niceHave.slice(0,8).map(r=>`<li>${r.replace(/^[-•*\s]+/,'')}</li>`).join('')}</ul>` : '<p style="color:var(--muted); font-size:0.82rem;">No "preferred" or "bonus" skills found</p>'}
+      </div>`;
+
+    // Corporate speak translation
+    let translated = text;
+    const foundJargon = [];
+    CORPORATE_SPEAK.forEach(({from, to}) => {
+      if (from.test(translated)) {
+        foundJargon.push({ from: from.source.replace(/\\b|\\s\+/g,' ').replace(/\?/g,'').trim(), to });
+        translated = translated.replace(from, `<mark style="background:rgba(10,102,194,0.2); color:#58a6ff; border-radius:3px; padding:1px 4px;">${to}</mark>`);
+      }
+    });
+
+    const transEl = document.getElementById('translate-content');
+    const noJargon = document.getElementById('no-jargon');
+    if (!foundJargon.length) {
+      transEl.style.display = 'none'; noJargon.style.display = 'block';
+    } else {
+      noJargon.style.display = 'none'; transEl.style.display = 'block';
+      transEl.innerHTML = `
+        <div style="margin-bottom:1rem;">
+          <div style="font-size:0.8rem; color:var(--muted); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.05em;">${foundJargon.length} buzzwords translated</div>
+          <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1.25rem;">
+            ${foundJargon.map(j => `<span style="background:var(--dark); border:1px solid var(--border); border-radius:6px; padding:0.25rem 0.6rem; font-size:0.78rem; color:var(--muted);">${j.from} → <span style="color:var(--blue);">${j.to}</span></span>`).join('')}
+          </div>
+        </div>
+        <div style="font-size:0.82rem; background:var(--dark); border:1px solid var(--border); border-radius:8px; padding:1rem; line-height:1.7; max-height:300px; overflow-y:auto; color:var(--text);">${translated}</div>`;
+    }
+
+    document.getElementById('results-placeholder').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+  }
+
+  function clearAll() {
+    document.getElementById('jd-input').value = '';
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('results-placeholder').style.display = 'block';
+  }
+
+  function switchTab(name, btn) {
+    document.querySelectorAll('#results .tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#results .tab-pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const map = { flags:'tab-flags', green:'tab-green', reqs:'tab-reqs', translate:'tab-translate' };
+    document.getElementById(map[name]).classList.add('active');
+  }
+
+  function showPremium() { document.getElementById('premium-modal').classList.add('open'); }
+  function closePremium() { document.getElementById('premium-modal').classList.remove('open'); }
+  function activatePremium() { CK.setPremium(true); closePremium(); alert('🎉 Premium unlocked!'); }
+</script>
+</body>
+</html>
