@@ -1,0 +1,28 @@
+{
+  "name": "CareerKit",
+  "short_name": "CareerKit",
+  "description": "Achievement Journal + Job Description Decoder for LinkedIn professionals",
+  "start_url": "/airbnb1/careerkit/",
+  "scope": "/airbnb1/careerkit/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0D1117",
+  "theme_color": "#0A66C2",
+  "icons": [
+    {
+      "src": "icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "business"],
+  "screenshots": [],
+  "lang": "en"
+}
