@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CareerKit — JD Decoder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/app.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0A66C2">
@@ -16,11 +19,21 @@
 <body>
 <div class="app-shell">
   <nav class="sidebar">
-    <div class="sidebar-logo"><h1>CareerKit</h1><p>Your career, documented 💼</p></div>
+    <div class="sidebar-logo">
+      <h1>CareerKit</h1>
+      <p>Your career, documented 💼</p>
+    </div>
     <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span>Dashboard</span></a>
     <a href="journal.html" class="nav-item"><span class="nav-icon">🏆</span><span>Achievement Journal</span></a>
     <a href="generate.html" class="nav-item"><span class="nav-icon">✨</span><span>Generate CV / LinkedIn</span></a>
     <a href="decoder.html" class="nav-item active"><span class="nav-icon">🕵️</span><span>JD Decoder</span></a>
+    <div class="sidebar-auth">
+      <button class="auth-chip" onclick="CK.showAuthModal('signin')">
+        <span class="auth-dot"></span>
+        <span class="auth-label">Sign in to sync</span>
+        <span style="font-size:0.7rem;color:var(--muted);">→</span>
+      </button>
+    </div>
     <div class="sidebar-bottom">
       <div class="premium-badge" onclick="showPremium()">⚡ Go Premium<small>LKR 1,500 one-time</small></div>
     </div>
@@ -35,23 +48,23 @@
     <div class="grid-2">
       <!-- Input -->
       <div class="card">
-        <h3 style="font-size:1rem; margin-bottom:1rem;">Paste Job Description</h3>
-        <textarea class="form-control" id="jd-input" style="min-height:320px;" placeholder="Paste the full job description here...
+        <h3 style="font-size:0.95rem; font-weight:700; margin-bottom:1rem; letter-spacing:-0.01em;">Paste Job Description</h3>
+        <textarea class="form-control" id="jd-input" style="min-height:320px;" placeholder="Paste the full job description here…
 
-We're looking for a passionate rockstar who thrives in a fast-paced environment and wears many hats..."></textarea>
+We're looking for a passionate rockstar who thrives in a fast-paced environment and wears many hats…"></textarea>
         <div style="display:flex; gap:0.75rem; margin-top:1rem;">
           <button class="btn btn-outline btn-sm" onclick="clearAll()">Clear</button>
           <button class="btn btn-primary" style="flex:1;" onclick="decode()">🔍 Decode This JD</button>
         </div>
-        <div style="margin-top:1rem; padding:0.75rem; background:var(--dark); border-radius:8px; font-size:0.8rem; color:var(--muted);">
+        <div style="margin-top:1rem; padding:0.75rem; background:var(--dark2); border-radius:8px; font-size:0.78rem; color:var(--muted); border:1px solid var(--border);">
           💡 Works 100% offline. Nothing is sent anywhere. Your JD stays on your device.
         </div>
       </div>
 
-      <!-- Results -->
+      <!-- Results placeholder -->
       <div id="results-placeholder">
         <div class="empty-state" style="padding:4rem 1rem;">
-          <div class="icon">🕵️</div>
+          <span class="icon">🕵️</span>
           <h3>Paste a job description</h3>
           <p>We'll decode it instantly — red flags, corporate speak, real requirements and more.</p>
         </div>
@@ -63,8 +76,8 @@ We're looking for a passionate rockstar who thrives in a fast-paced environment 
 
         <!-- Tabs -->
         <div class="tabs">
-          <button class="tab-btn active" onclick="switchTab('flags',this)">🚩 Red Flags <span id="flag-count-badge" class="badge" style="background:rgba(231,76,60,0.15); color:var(--red); font-size:0.7rem;"></span></button>
-          <button class="tab-btn" onclick="switchTab('green',this)">✅ Green Flags <span id="green-count-badge" class="badge" style="background:rgba(46,204,113,0.15); color:var(--green); font-size:0.7rem;"></span></button>
+          <button class="tab-btn active" onclick="switchTab('flags',this)">🚩 Red Flags <span id="flag-count-badge" class="badge" style="background:var(--red-dim); color:var(--red); font-size:0.7rem;"></span></button>
+          <button class="tab-btn" onclick="switchTab('green',this)">✅ Green Flags <span id="green-count-badge" class="badge" style="background:var(--green-dim); color:var(--green); font-size:0.7rem;"></span></button>
           <button class="tab-btn" onclick="switchTab('reqs',this)">📋 Requirements</button>
           <button class="tab-btn" onclick="switchTab('translate',this)">💬 Plain English</button>
         </div>
@@ -100,8 +113,8 @@ We're looking for a passionate rockstar who thrives in a fast-paced environment 
 <div class="modal-overlay" id="premium-modal">
   <div class="modal">
     <h3>⚡ Unlock Premium</h3>
-    <div style="text-align:center; margin-bottom:1.5rem;">
-      <div style="font-size:2rem; font-weight:800; color:var(--blue);">LKR 1,500</div>
+    <div style="text-align:center; margin-bottom:1.5rem; margin-top:-0.5rem;">
+      <div style="font-size:2rem; font-weight:800; color:var(--blue-light);">LKR 1,500</div>
       <div style="color:var(--muted); font-size:0.8rem;">one-time • no subscription</div>
     </div>
     <div class="modal-footer">
@@ -111,22 +124,21 @@ We're looking for a passionate rockstar who thrives in a fast-paced environment 
   </div>
 </div>
 
+<div id="toast-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/app.js"></script>
 <script src="js/decoder-data.js"></script>
 <script>
   function decode() {
     const text = document.getElementById('jd-input').value.trim();
-    if (!text) { alert('Please paste a job description first.'); return; }
+    if (!text) { Toast.show('Please paste a job description first.', 'error'); return; }
 
     CK.incDecodes();
 
-    // Red flags
     const foundFlags = RED_FLAGS.filter(f => f.pattern.test(text));
-
-    // Green flags
     const foundGreen = GREEN_FLAGS.filter(f => f.pattern.test(text));
 
-    // Verdict
     const verdictBox = document.getElementById('verdict-box');
     if (foundFlags.length === 0) {
       verdictBox.className = 'verdict verdict-green';
@@ -139,7 +151,6 @@ We're looking for a passionate rockstar who thrives in a fast-paced environment 
       verdictBox.innerHTML = `<div class="verdict-icon">🔴</div><div class="verdict-text"><h3>Run. Seriously.</h3><p>${foundFlags.length} red flags found. This posting has multiple warning signs of a toxic or misleading workplace.</p></div>`;
     }
 
-    // Flags list
     document.getElementById('flag-count-badge').textContent = foundFlags.length;
     const flagsList = document.getElementById('flags-list');
     if (!foundFlags.length) {
@@ -152,7 +163,6 @@ We're looking for a passionate rockstar who thrives in a fast-paced environment 
         </div>`).join('');
     }
 
-    // Green flags
     document.getElementById('green-count-badge').textContent = foundGreen.length;
     const greenList = document.getElementById('green-list');
     if (!foundGreen.length) {
@@ -164,12 +174,10 @@ We're looking for a passionate rockstar who thrives in a fast-paced environment 
         </div>`).join('');
     }
 
-    // Requirements split
-    const lines = text.split(/\n|•|-|\*/).map(l => l.trim()).filter(l => l.length > 10);
+    const lines    = text.split(/\n|•|-|\*/).map(l => l.trim()).filter(l => l.length > 10);
     const mustHave = lines.filter(l => /\b(required|must have|must be|minimum|essential|you (must|need|should have)|mandatory)\b/i.test(l));
     const niceHave = lines.filter(l => /\b(preferred|nice to have|bonus|advantageous|ideally|a plus|desirable|optional)\b/i.test(l));
-    const reqEl = document.getElementById('reqs-content');
-    reqEl.innerHTML = `
+    document.getElementById('reqs-content').innerHTML = `
       <div class="req-must">
         <div class="req-label">Must Have (${mustHave.length})</div>
         ${mustHave.length ? `<ul class="req-list">${mustHave.slice(0,10).map(r=>`<li>${r.replace(/^[-•*\s]+/,'')}</li>`).join('')}</ul>` : '<p style="color:var(--muted); font-size:0.82rem;">No explicitly required skills found</p>'}
@@ -179,17 +187,16 @@ We're looking for a passionate rockstar who thrives in a fast-paced environment 
         ${niceHave.length ? `<ul class="req-list">${niceHave.slice(0,8).map(r=>`<li>${r.replace(/^[-•*\s]+/,'')}</li>`).join('')}</ul>` : '<p style="color:var(--muted); font-size:0.82rem;">No "preferred" or "bonus" skills found</p>'}
       </div>`;
 
-    // Corporate speak translation
     let translated = text;
     const foundJargon = [];
     CORPORATE_SPEAK.forEach(({from, to}) => {
       if (from.test(translated)) {
         foundJargon.push({ from: from.source.replace(/\\b|\\s\+/g,' ').replace(/\?/g,'').trim(), to });
-        translated = translated.replace(from, `<mark style="background:rgba(10,102,194,0.2); color:#58a6ff; border-radius:3px; padding:1px 4px;">${to}</mark>`);
+        translated = translated.replace(from, `<mark style="background:rgba(10,102,194,0.2);color:#70BAFF;border-radius:3px;padding:1px 4px;">${to}</mark>`);
       }
     });
 
-    const transEl = document.getElementById('translate-content');
+    const transEl  = document.getElementById('translate-content');
     const noJargon = document.getElementById('no-jargon');
     if (!foundJargon.length) {
       transEl.style.display = 'none'; noJargon.style.display = 'block';
@@ -197,16 +204,18 @@ We're looking for a passionate rockstar who thrives in a fast-paced environment 
       noJargon.style.display = 'none'; transEl.style.display = 'block';
       transEl.innerHTML = `
         <div style="margin-bottom:1rem;">
-          <div style="font-size:0.8rem; color:var(--muted); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.05em;">${foundJargon.length} buzzwords translated</div>
+          <div style="font-size:0.78rem; color:var(--muted); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.06em;">${foundJargon.length} buzzwords translated</div>
           <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1.25rem;">
-            ${foundJargon.map(j => `<span style="background:var(--dark); border:1px solid var(--border); border-radius:6px; padding:0.25rem 0.6rem; font-size:0.78rem; color:var(--muted);">${j.from} → <span style="color:var(--blue);">${j.to}</span></span>`).join('')}
+            ${foundJargon.map(j => `<span style="background:var(--dark2);border:1px solid var(--border);border-radius:6px;padding:0.25rem 0.6rem;font-size:0.78rem;color:var(--muted);">${j.from} → <span style="color:var(--blue-light);">${j.to}</span></span>`).join('')}
           </div>
         </div>
-        <div style="font-size:0.82rem; background:var(--dark); border:1px solid var(--border); border-radius:8px; padding:1rem; line-height:1.7; max-height:300px; overflow-y:auto; color:var(--text);">${translated}</div>`;
+        <div style="font-size:0.82rem;background:var(--dark2);border:1px solid var(--border);border-radius:8px;padding:1rem;line-height:1.75;max-height:300px;overflow-y:auto;color:var(--text);">${translated}</div>`;
     }
 
     document.getElementById('results-placeholder').style.display = 'none';
     document.getElementById('results').style.display = 'block';
+
+    Toast.show(`Decoded — ${foundFlags.length} red flag${foundFlags.length!==1?'s':''} found`, foundFlags.length > 2 ? 'error' : foundFlags.length > 0 ? 'warning' : 'success');
   }
 
   function clearAll() {
@@ -223,9 +232,9 @@ We're looking for a passionate rockstar who thrives in a fast-paced environment 
     document.getElementById(map[name]).classList.add('active');
   }
 
-  function showPremium() { document.getElementById('premium-modal').classList.add('open'); }
-  function closePremium() { document.getElementById('premium-modal').classList.remove('open'); }
-  function activatePremium() { CK.setPremium(true); closePremium(); alert('🎉 Premium unlocked!'); }
+  function showPremium()    { document.getElementById('premium-modal').classList.add('open'); }
+  function closePremium()   { document.getElementById('premium-modal').classList.remove('open'); }
+  function activatePremium(){ CK.setPremium(true); closePremium(); Toast.show('🎉 Premium unlocked!', 'success'); }
 </script>
 </body>
 </html>
