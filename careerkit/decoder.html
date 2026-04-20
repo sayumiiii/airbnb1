@@ -110,19 +110,6 @@ We're looking for a passionate rockstar who thrives in a fast-paced environment 
   </div>
 </nav>
 
-<div class="modal-overlay" id="premium-modal">
-  <div class="modal">
-    <h3>⚡ Unlock Premium</h3>
-    <div style="text-align:center; margin-bottom:1.5rem; margin-top:-0.5rem;">
-      <div style="font-size:2rem; font-weight:800; color:var(--blue-light);">LKR 1,500</div>
-      <div style="color:var(--muted); font-size:0.8rem;">one-time • no subscription</div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closePremium()">Maybe later</button>
-      <button class="btn btn-primary" onclick="activatePremium()">🔓 Unlock Now</button>
-    </div>
-  </div>
-</div>
 
 <div id="toast-container"></div>
 
@@ -232,9 +219,7 @@ We're looking for a passionate rockstar who thrives in a fast-paced environment 
     document.getElementById(map[name]).classList.add('active');
   }
 
-  function showPremium()    { document.getElementById('premium-modal').classList.add('open'); }
-  function closePremium()   { document.getElementById('premium-modal').classList.remove('open'); }
-  function activatePremium(){ CK.setPremium(true); closePremium(); Toast.show('🎉 Premium unlocked!', 'success'); }
+  function showPremium() { CK.showPremium(); }
 </script>
 </body>
 </html>

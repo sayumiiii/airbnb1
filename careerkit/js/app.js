@@ -7,6 +7,32 @@
 const SUPABASE_URL = 'YOUR_SUPABASE_URL';
 const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
+// ── Payment config ────────────────────────────────────────────────────────────
+// Stripe: create a Payment Link at dashboard.stripe.com
+//   → set "Success URL" to: https://sayumiiii.github.io/airbnb1/careerkit/?ck_unlocked=1
+// PayHere: create a Payment Link at payhere.lk → Payment Links
+//   → set "Return URL" to:  https://sayumiiii.github.io/airbnb1/careerkit/?ck_unlocked=1
+// Unlock code: change this string, email it to buyers after confirming payment
+const STRIPE_LINK  = 'https://buy.stripe.com/YOUR_STRIPE_LINK';
+const PAYHERE_LINK = 'https://www.payhere.lk/pay/YOUR_PAYHERE_LINK';
+const UNLOCK_CODE  = 'CKPRO2025LKR'; // Change this before going live
+
+// ── Check Stripe/PayHere success redirect ─────────────────────────────────────
+(function () {
+  const p = new URLSearchParams(window.location.search);
+  if (p.get('ck_unlocked') === '1') {
+    localStorage.setItem('ck_premium', 'true');
+    history.replaceState({}, '', window.location.pathname);
+    document.addEventListener('DOMContentLoaded', () => {
+      Toast.show('🎉 Premium activated! All features are now unlocked.', 'success', 5000);
+      ['linkedin-lock', 'review-lock'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.style.display = 'none';
+      });
+      if (typeof generateAll === 'function') generateAll();
+    });
+  }
+})();
+
 let _sb = null;
 let _user = null;
 
@@ -39,9 +65,9 @@ function _updateAuthUI() {
       chip.onclick = () => CK.showAuthModal('signin');
     }
   });
-  // hide sync banner if logged in
-  const banners = document.querySelectorAll('.sync-banner');
-  banners.forEach(b => b.style.display = _user ? 'none' : '');
+  document.querySelectorAll('.sync-banner').forEach(b => {
+    b.style.display = _user ? 'none' : '';
+  });
 }
 
 // ── Toast ─────────────────────────────────────────────────────────────────────
@@ -81,7 +107,15 @@ const CK = {
     if (_sb && _user) this._pushDecodeCount(n).catch(() => {});
   },
   isPremium()    { return localStorage.getItem('ck_premium') === 'true'; },
-  setPremium(v)  { localStorage.setItem('ck_premium', v ? 'true' : 'false'); },
+  setPremium(v)  {
+    localStorage.setItem('ck_premium', v ? 'true' : 'false');
+    if (v && _sb && _user) {
+      _sb.from('user_settings').upsert(
+        { user_id: _user.id, is_premium: true },
+        { onConflict: 'user_id' }
+      ).catch(() => {});
+    }
+  },
 
   getStreak() {
     const entries = this.getEntries();
@@ -152,9 +186,101 @@ const CK = {
       if (settings?.is_premium)   localStorage.setItem('ck_premium', 'true');
 
       Toast.show('Data synced from cloud ☁️', 'success');
-      if (typeof render       === 'function') render();
-      if (typeof generateAll  === 'function') generateAll();
+      if (typeof render      === 'function') render();
+      if (typeof generateAll === 'function') generateAll();
     } catch (err) { console.warn('Cloud pull error:', err); }
+  },
+
+  // ── Premium modal ─────────────────────────────────────────────────────────────
+  showPremium() {
+    if (this.isPremium()) {
+      Toast.show('✅ You already have Premium!', 'success');
+      return;
+    }
+
+    let overlay = document.getElementById('ck-premium-modal');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'ck-premium-modal';
+      overlay.className = 'modal-overlay';
+
+      const stripeConfigured  = STRIPE_LINK  !== 'https://buy.stripe.com/YOUR_STRIPE_LINK';
+      const payhereConfigured = PAYHERE_LINK !== 'https://www.payhere.lk/pay/YOUR_PAYHERE_LINK';
+
+      const stripeBtn = stripeConfigured
+        ? `<a href="${STRIPE_LINK}" target="_blank" rel="noopener" class="btn btn-primary" style="justify-content:center;padding:0.85rem 1rem;font-size:0.95rem;" onclick="document.getElementById('ck-premium-modal').classList.remove('open')">💳 Pay with Card</a>`
+        : `<div style="padding:0.75rem 1rem;background:var(--dark);border:1px dashed var(--border);border-radius:8px;font-size:0.8rem;color:var(--muted);text-align:center;">Card payment coming soon — use the unlock code below after bank transfer</div>`;
+
+      const payhereBtn = payhereConfigured
+        ? `<a href="${PAYHERE_LINK}" target="_blank" rel="noopener" class="btn btn-outline" style="justify-content:center;padding:0.85rem 1rem;" onclick="document.getElementById('ck-premium-modal').classList.remove('open')">🏦 Pay via PayHere <span style="font-size:0.75rem;opacity:0.7;">(Sri Lanka)</span></a>`
+        : `<div style="padding:0.65rem 1rem;background:var(--dark);border:1px dashed var(--border);border-radius:8px;font-size:0.8rem;color:var(--muted);text-align:center;">Bank transfer: <strong style="color:var(--text-2);">Contact us for details</strong></div>`;
+
+      overlay.innerHTML = `
+        <div class="modal" style="max-width:460px;">
+          <div style="text-align:center;padding-bottom:1.5rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem;">
+            <div style="font-size:2.5rem;margin-bottom:0.5rem;">⚡</div>
+            <h3 style="font-size:1.35rem;margin-bottom:0.2rem;">CareerKit Premium</h3>
+            <p style="color:var(--text-2);font-size:0.88rem;margin:0;">One-time. No subscriptions. Yours forever.</p>
+          </div>
+
+          <div style="display:grid;gap:0.55rem;margin-bottom:1.5rem;">
+            <div style="display:flex;gap:0.75rem;align-items:center;font-size:0.9rem;"><span style="color:var(--green);font-size:1.1rem;line-height:1;">✓</span> Unlimited journal entries (free: 20)</div>
+            <div style="display:flex;gap:0.75rem;align-items:center;font-size:0.9rem;"><span style="color:var(--green);font-size:1.1rem;line-height:1;">✓</span> Full CV export — all entries</div>
+            <div style="display:flex;gap:0.75rem;align-items:center;font-size:0.9rem;"><span style="color:var(--green);font-size:1.1rem;line-height:1;">✓</span> LinkedIn Summary generator</div>
+            <div style="display:flex;gap:0.75rem;align-items:center;font-size:0.9rem;"><span style="color:var(--green);font-size:1.1rem;line-height:1;">✓</span> Performance Self-Review generator</div>
+          </div>
+
+          <div style="background:linear-gradient(135deg,rgba(10,102,194,0.12),rgba(45,140,232,0.08));border:1px solid var(--blue-border);border-radius:12px;padding:1.25rem;text-align:center;margin-bottom:1.5rem;">
+            <div style="font-size:2.6rem;font-weight:800;color:var(--text);letter-spacing:-0.04em;line-height:1;">LKR 1,500</div>
+            <div style="color:var(--muted);font-size:0.8rem;margin-top:0.35rem;">one-time payment · no subscriptions</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:0.65rem;margin-bottom:1.25rem;">
+            ${stripeBtn}
+            ${payhereBtn}
+          </div>
+
+          <div style="border-top:1px solid var(--border);padding-top:1.1rem;">
+            <div style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;">Already paid? Enter your unlock code:</div>
+            <div style="display:flex;gap:0.5rem;">
+              <input type="text" id="_prem_code" class="form-control" placeholder="e.g. CKPRO2025LKR" style="flex:1;font-size:0.88rem;text-transform:uppercase;letter-spacing:0.05em;">
+              <button class="btn btn-primary btn-sm" onclick="CK._applyCode()" style="flex-shrink:0;">Apply</button>
+            </div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem;">You'll receive your unlock code via email after payment is confirmed.</div>
+          </div>
+
+          <div style="margin-top:1.25rem;text-align:center;">
+            <button onclick="document.getElementById('ck-premium-modal').classList.remove('open')" style="background:none;border:none;color:var(--muted);font-size:0.82rem;cursor:pointer;font-family:inherit;padding:0.25rem 0.5rem;">Maybe later</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+    }
+
+    overlay.classList.add('open');
+    // Clear code field on open
+    const codeEl = overlay.querySelector('#_prem_code');
+    if (codeEl) codeEl.value = '';
+  },
+
+  _applyCode() {
+    const input = document.getElementById('_prem_code');
+    const code  = (input?.value || '').trim().toUpperCase();
+    if (!code) { Toast.show('Please enter an unlock code.', 'error'); return; }
+
+    if (code === UNLOCK_CODE) {
+      this.setPremium(true);
+      document.getElementById('ck-premium-modal')?.classList.remove('open');
+      Toast.show('🎉 Premium unlocked! All features are yours.', 'success', 5000);
+      ['linkedin-lock', 'review-lock'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.style.display = 'none';
+      });
+      if (typeof generateAll === 'function') generateAll();
+      if (typeof render      === 'function') render();
+    } else {
+      Toast.show('Invalid code — double-check and try again.', 'error', 4000);
+      input?.select();
+    }
   },
 
   // ── Auth modal ──────────────────────────────────────────────────────────────
@@ -176,10 +302,10 @@ const CK = {
               <div style="font-weight:700;color:var(--text);margin-bottom:0.5rem;">🔧 Setup cloud sync in 3 steps:</div>
               <div>1. Create a free project at <strong style="color:var(--blue-light);">supabase.com</strong></div>
               <div>2. Copy your <strong>Project URL</strong> and <strong>anon key</strong></div>
-              <div>3. Paste them into <code style="color:var(--blue-light);background:rgba(10,102,194,0.12);padding:1px 5px;border-radius:4px;">js/app.js</code> (lines 6–7)</div>
+              <div>3. Paste them into <code style="color:var(--blue-light);background:rgba(10,102,194,0.12);padding:1px 5px;border-radius:4px;">js/app.js</code> (lines 7–8)</div>
             </div>
             <div style="margin-top:1rem;padding:0.75rem;background:var(--green-dim);border:1px solid var(--green-border);border-radius:8px;font-size:0.8rem;color:var(--text-2);">
-              💡 Your data is already saved in your browser's localStorage and won't disappear on refresh — only when you clear browser data.
+              💡 Your data is already saved in localStorage and won't disappear on refresh — only if you clear browser data.
             </div>
           </div>
 
@@ -217,11 +343,11 @@ const CK = {
     overlay.classList.add('open');
 
     if (notConfigured) {
-      overlay.querySelector('#_auth_title').textContent = '☁️ Cloud Sync';
-      overlay.querySelector('#_auth_sub').textContent   = 'Connect a free Supabase database so your data syncs across devices.';
-      overlay.querySelector('#_auth_not_cfg').style.display = 'block';
-      overlay.querySelector('#_auth_acct').style.display    = 'none';
-      overlay.querySelector('#_auth_form').style.display    = 'none';
+      overlay.querySelector('#_auth_title').textContent      = '☁️ Cloud Sync';
+      overlay.querySelector('#_auth_sub').textContent        = 'Connect a free Supabase database so your data syncs across devices.';
+      overlay.querySelector('#_auth_not_cfg').style.display  = 'block';
+      overlay.querySelector('#_auth_acct').style.display     = 'none';
+      overlay.querySelector('#_auth_form').style.display     = 'none';
       overlay.querySelector('#_auth_close_only').style.display = 'flex';
       return;
     }
@@ -230,10 +356,10 @@ const CK = {
     overlay.querySelector('#_auth_close_only').style.display = 'none';
 
     if (mode === 'account' && _user) {
-      overlay.querySelector('#_auth_title').textContent = 'Your Account';
-      overlay.querySelector('#_auth_sub').textContent   = '';
-      overlay.querySelector('#_auth_acct').style.display = 'block';
-      overlay.querySelector('#_auth_form').style.display = 'none';
+      overlay.querySelector('#_auth_title').textContent      = 'Your Account';
+      overlay.querySelector('#_auth_sub').textContent        = '';
+      overlay.querySelector('#_auth_acct').style.display     = 'block';
+      overlay.querySelector('#_auth_form').style.display     = 'none';
       overlay.querySelector('#_auth_email_disp').textContent = _user.email;
     } else {
       overlay.querySelector('#_auth_title').textContent = 'Sign in to sync';
@@ -255,7 +381,7 @@ const CK = {
     const pass  = document.getElementById('_auth_pw').value;
     if (!email || !pass) { Toast.show('Please fill in all fields', 'error'); return; }
 
-    const btn = document.getElementById('_auth_submit');
+    const btn  = document.getElementById('_auth_submit');
     const orig = btn.textContent;
     btn.textContent = 'Please wait…'; btn.disabled = true;
 

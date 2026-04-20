@@ -137,19 +137,6 @@
   </div>
 </nav>
 
-<div class="modal-overlay" id="premium-modal">
-  <div class="modal">
-    <h3>⚡ Unlock Premium</h3>
-    <div style="text-align:center; margin-bottom:1.5rem; margin-top:-0.5rem;">
-      <div style="font-size:2rem; font-weight:800; color:var(--blue-light);">LKR 1,500</div>
-      <div style="color:var(--muted); font-size:0.8rem;">one-time • no subscription</div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closePremium()">Maybe later</button>
-      <button class="btn btn-primary" onclick="activatePremium()">🔓 Unlock Now</button>
-    </div>
-  </div>
-</div>
 
 <div id="toast-container"></div>
 
@@ -258,15 +245,7 @@
     });
   }
 
-  function showPremium()  { document.getElementById('premium-modal').classList.add('open'); }
-  function closePremium() { document.getElementById('premium-modal').classList.remove('open'); }
-  function activatePremium() {
-    CK.setPremium(true); closePremium();
-    Toast.show('🎉 Premium unlocked!', 'success');
-    document.getElementById('linkedin-lock').style.display = 'none';
-    document.getElementById('review-lock').style.display   = 'none';
-    generateAll();
-  }
+  function showPremium() { CK.showPremium(); }
 
   document.addEventListener('DOMContentLoaded', () => {
     const entries = CK.getEntries();
